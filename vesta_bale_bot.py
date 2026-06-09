@@ -142,6 +142,12 @@ def instagram(message):
 def back(message):
     bot.send_message(message.chat.id, "منوی اصلی 🏠", reply_markup=main_kb())
 
+@bot.message_handler(content_types=['photo'])
+def get_file_id(message):
+    if message.from_user.id == 7333037232:
+        file_id = message.photo[-1].file_id
+        bot.send_message(message.chat.id, f"`{file_id}`", parse_mode="Markdown")
+
 @bot.message_handler(func=lambda m: True)
 def fallback(message):
     bot.send_message(message.chat.id,
