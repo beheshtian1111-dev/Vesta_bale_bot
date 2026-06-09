@@ -1,5 +1,11 @@
 import telebot
+from telebot import apihelper
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+from flask import Flask
+import threading
+
+# تنظیم endpoint بله
+apihelper.API_URL = "https://tapi.bale.ai/bot{0}/{1}"
 
 # ─── تنظیمات ───────────────────────────────────────────────
 TOKEN        = "560660765:yORGFoVOwJN8qEk2iToVDdSRSXwEzOoO4FE"
@@ -12,87 +18,69 @@ INSTAGRAM    = "https://www.instagram.com/divar.posh?igsh=b2ZlbmkycGU3M2Rj&utm_s
 WHATSAPP     = "https://wa.me/989120646909"
 SUPPORT_BALE = "@divar_posh"
 
-# ─── ساخت بات با endpoint بله ──────────────────────────────
-bot = telebot.TeleBot(
-    TOKEN,
-    custom_url="https://tapi.bale.ai/bot"
-)
+# ─── Flask برای زنده نگه داشتن سرویس ──────────────────────
+app = Flask(__name__)
+
+@app.route('/')
+def health():
+    return 'OK'
+
+def run_flask():
+    app.run(host='0.0.0.0', port=8080)
+
+threading.Thread(target=run_flask, daemon=True).start()
+
+# ─── ساخت بات ──────────────────────────────────────────────
+bot = telebot.TeleBot(TOKEN)
 
 # ─── محصولات ────────────────────────────────────────────────
 PRODUCTS = {
-    "🟫 دیوارپوش فومی": {
-        "desc": (
-            "🏷 *دیوارپوش فومی سه‌بعدی*\n\n"
-            "✅ سبک، عایق صدا و حرارت\n"
-            "📐 ابعاد: ۵۰×۵۰ سانتی‌متر\n"
-            "🎨 طرح‌های متنوع\n\n"
-            f"📞 برای قیمت و سفارش:\n{MOBILE1}\n{SUPPORT_BALE}"
-        ),
-        "photo": "photos/wall_foam.jpg",
-    },
-    "🟦 دیوارپوش فومی رولی": {
-        "desc": (
-            "🏷 *دیوارپوش فومی رولی*\n\n"
-            "✅ نرم، انعطاف‌پذیر، مناسب فضاهای بزرگ\n"
-            "📏 عرض استاندارد رول\n\n"
-            f"📞 برای قیمت و سفارش:\n{MOBILE1}\n{SUPPORT_BALE}"
-        ),
-        "photo": None,
-    },
-    "🧱 ترموال": {
-        "desc": (
-            "🏷 *پانل ترموال*\n\n"
-            "✅ عایق حرارتی و صوتی عالی\n"
-            "✅ مناسب دیوار و سقف\n"
-            "✅ اجرای سریع و آسان\n\n"
-            f"📞 برای قیمت و سفارش:\n{MOBILE1}\n{SUPPORT_BALE}"
-        ),
-        "photo": "photos/thermowall.jpg",
-    },
-    "🪵 کفپوش": {
-        "desc": (
-            "🏷 *کفپوش لمینت و وینیل*\n\n"
-            "✅ طرح‌های متنوع چوب و سنگ\n"
-            "✅ مقاوم در برابر رطوبت\n"
-            "✅ نصب آسان\n\n"
-            f"📞 برای قیمت و سفارش:\n{MOBILE1}\n{SUPPORT_BALE}"
-        ),
-        "photo": "photos/flooring.jpg",
-    },
-    "📏 قرنیز": {
-        "desc": (
-            "🏷 *قرنیز PVC و MDF*\n\n"
-            "✅ رنگ‌بندی متنوع\n"
-            "✅ مقاوم در برابر رطوبت\n"
-            "✅ ظاهر شیک و مرتب\n\n"
-            f"📞 برای قیمت و سفارش:\n{MOBILE1}\n{SUPPORT_BALE}"
-        ),
-        "photo": "photos/qarniz.jpg",
-    },
-    "🪨 ماربل شیت": {
-        "desc": (
-            "🏷 *ماربل شیت (سنگ مصنوعی ورقه‌ای)*\n\n"
-            "✅ ظاهر لوکس، وزن سبک\n"
-            "✅ مقاوم و بادوام\n"
-            "✅ مناسب آشپزخانه و سرویس بهداشتی\n\n"
-            f"📞 برای قیمت و سفارش:\n{MOBILE1}\n{SUPPORT_BALE}"
-        ),
-        "photo": None,
-    },
+    "🧱 دیوارپوش فومی": (
+        "🏷 *دیوارپوش فومی سه‌بعدی*\n\n"
+        "✅ سبک، عایق صدا و حرارت\n"
+        "📐 ابعاد: ۵۰×۵۰ سانتی‌متر\n\n"
+        f"📞 سفارش:\n09120646909\n@divar_posh"
+    ),
+    "🏠 دیوارپوش فومی رولی": (
+        "🏷 *دیوارپوش فومی رولی*\n\n"
+        "✅ نرم و انعطاف‌پذیر\n"
+        "📏 مناسب فضاهای بزرگ\n\n"
+        f"📞 سفارش:\n09120646909\n@divar_posh"
+    ),
+    "🪵 ترمووال": (
+        "🏷 *پانل ترمووال*\n\n"
+        "✅ عایق حرارتی و صوتی\n"
+        "✅ مناسب دیوار و سقف\n\n"
+        f"📞 سفارش:\n09120646909\n@divar_posh"
+    ),
+    "⬜ کفپوش": (
+        "🏷 *کفپوش لمینت و وینیل*\n\n"
+        "✅ طرح‌های متنوع چوب و سنگ\n"
+        "✅ مقاوم در برابر رطوبت\n\n"
+        f"📞 سفارش:\n09120646909\n@divar_posh"
+    ),
+    "📐 قرنیز": (
+        "🏷 *قرنیز PVC و MDF*\n\n"
+        "✅ رنگ‌بندی متنوع\n"
+        "✅ مقاوم در برابر رطوبت\n\n"
+        f"📞 سفارش:\n09120646909\n@divar_posh"
+    ),
+    "🪨 ماربل شیت": (
+        "🏷 *ماربل شیت*\n\n"
+        "✅ ظاهر لوکس، وزن سبک\n"
+        "✅ مناسب آشپزخانه و سرویس\n\n"
+        f"📞 سفارش:\n09120646909\n@divar_posh"
+    ),
 }
 
 # ─── کیبوردها ───────────────────────────────────────────────
-def main_keyboard():
+def main_kb():
     kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    kb.add(
-        KeyboardButton("🛍 محصولات"),
-        KeyboardButton("📍 آدرس و اطلاعات"),
-        KeyboardButton("🤝 پشتیبانی"),
-        KeyboardButton("📸 اینستاگرام"),
-    )
+    kb.add(KeyboardButton("🛍 محصولات"), KeyboardButton("📍 آدرس و اطلاعات"))
+    kb.add(KeyboardButton("🤝 پشتیبانی"), KeyboardButton("📸 اینستاگرام"))
     return kb
 
-def products_keyboard():
+def products_kb():
     kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     for name in PRODUCTS:
         kb.add(KeyboardButton(name))
@@ -100,100 +88,65 @@ def products_keyboard():
     return kb
 
 # ─── هندلرها ────────────────────────────────────────────────
-
 @bot.message_handler(commands=["start"])
 def start(message):
     name = message.from_user.first_name or "کاربر عزیز"
-    text = (
+    bot.send_message(message.chat.id,
         f"سلام {name} عزیز 👋\n\n"
         "به بات رسمی 🏠 *وستا دکور* خوش آمدید!\n\n"
-        "ما ارائه‌دهنده انواع پوشش‌های دیوار و کف:\n"
-        "• دیوارپوش فومی و ترموال\n"
+        "• دیوارپوش فومی و ترمووال\n"
         "• کفپوش لمینت و وینیل\n"
-        "• قرنیز، ماربل شیت و بیشتر...\n\n"
-        "از منوی پایین گزینه مورد نظر را انتخاب کنید 👇"
-    )
-    bot.send_message(message.chat.id, text, parse_mode="Markdown", reply_markup=main_keyboard())
-
+        "• قرنیز، ماربل شیت\n\n"
+        "از منوی پایین انتخاب کنید 👇",
+        parse_mode="Markdown", reply_markup=main_kb())
 
 @bot.message_handler(func=lambda m: m.text == "🛍 محصولات")
-def show_products(message):
-    bot.send_message(
-        message.chat.id,
+def products(message):
+    bot.send_message(message.chat.id,
         "📦 *محصولات وستا دکور*\n\nیک محصول انتخاب کنید:",
-        parse_mode="Markdown",
-        reply_markup=products_keyboard()
-    )
-
+        parse_mode="Markdown", reply_markup=products_kb())
 
 @bot.message_handler(func=lambda m: m.text in PRODUCTS)
-def show_product_detail(message):
-    product = PRODUCTS[message.text]
-    caption = product["desc"]
-
-    if product["photo"]:
-        try:
-            with open(product["photo"], "rb") as photo:
-                bot.send_photo(
-                    message.chat.id, photo,
-                    caption=caption,
-                    parse_mode="Markdown",
-                    reply_markup=products_keyboard()
-                )
-            return
-        except FileNotFoundError:
-            pass
-
-    bot.send_message(message.chat.id, caption, parse_mode="Markdown", reply_markup=products_keyboard())
-
+def product_detail(message):
+    bot.send_message(message.chat.id, PRODUCTS[message.text],
+        parse_mode="Markdown", reply_markup=products_kb())
 
 @bot.message_handler(func=lambda m: m.text == "📍 آدرس و اطلاعات")
-def show_address(message):
-    text = (
-        "🏪 *وستا دکور*\n\n"
+def address(message):
+    bot.send_message(message.chat.id,
+        f"🏪 *وستا دکور*\n\n"
         f"📍 *آدرس:*\n{ADDRESS}\n\n"
         f"☎️ *تلفن ثابت:*\n{LANDLINE1}\n{LANDLINE2}\n\n"
         f"📱 *موبایل:*\n{MOBILE1}\n{MOBILE2}\n\n"
-        "🕐 *ساعت کاری:*\nشنبه تا پنج‌شنبه | ۹ صبح تا ۷ شب"
-    )
-    bot.send_message(message.chat.id, text, parse_mode="Markdown", reply_markup=main_keyboard())
-
+        "🕐 *ساعت کاری:*\nشنبه تا پنج‌شنبه | ۹ صبح تا ۷ شب",
+        parse_mode="Markdown", reply_markup=main_kb())
 
 @bot.message_handler(func=lambda m: m.text == "🤝 پشتیبانی")
-def show_support(message):
-    text = (
-        "👨‍💼 *پشتیبانی وستا دکور*\n\n"
+def support(message):
+    bot.send_message(message.chat.id,
+        f"👨‍💼 *پشتیبانی وستا دکور*\n\n"
         f"💬 بله: {SUPPORT_BALE}\n"
         f"📱 واتساپ: {WHATSAPP}\n"
         f"📞 تماس: {MOBILE1}\n\n"
-        "⏰ *پاسخگویی:*\nشنبه تا پنج‌شنبه | ۹ صبح تا ۷ شب"
-    )
-    bot.send_message(message.chat.id, text, parse_mode="Markdown", reply_markup=main_keyboard())
-
+        "⏰ شنبه تا پنج‌شنبه | ۹ صبح تا ۷ شب",
+        parse_mode="Markdown", reply_markup=main_kb())
 
 @bot.message_handler(func=lambda m: m.text == "📸 اینستاگرام")
-def show_instagram(message):
-    text = (
-        "📸 *اینستاگرام وستا دکور*\n\n"
-        f"{INSTAGRAM}\n\n"
-        "آخرین طرح‌ها و پروژه‌های اجرا شده را دنبال کنید! 🎨"
-    )
-    bot.send_message(message.chat.id, text, parse_mode="Markdown", reply_markup=main_keyboard())
-
+def instagram(message):
+    bot.send_message(message.chat.id,
+        f"📸 *اینستاگرام وستا دکور*\n\n{INSTAGRAM}\n\n"
+        "آخرین طرح‌ها رو دنبال کنید! 🎨",
+        parse_mode="Markdown", reply_markup=main_kb())
 
 @bot.message_handler(func=lambda m: m.text == "🔙 بازگشت به منوی اصلی")
-def go_back(message):
-    bot.send_message(message.chat.id, "منوی اصلی 🏠", reply_markup=main_keyboard())
-
+def back(message):
+    bot.send_message(message.chat.id, "منوی اصلی 🏠", reply_markup=main_kb())
 
 @bot.message_handler(func=lambda m: True)
 def fallback(message):
-    bot.send_message(
-        message.chat.id,
-        "لطفاً از منوی پایین گزینه‌ای انتخاب کنید 👇",
-        reply_markup=main_keyboard()
-    )
-
+    bot.send_message(message.chat.id,
+        "لطفاً از منوی پایین انتخاب کنید 👇",
+        reply_markup=main_kb())
 
 # ─── اجرا ───────────────────────────────────────────────────
 if __name__ == "__main__":
