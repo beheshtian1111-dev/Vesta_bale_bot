@@ -217,11 +217,45 @@ def foam_product(message):
         parse_mode="Markdown", reply_markup=foam_kb())
 
 # ── زیرمنوی ترمووال ──
-@bot.message_handler(func=lambda m: m.text in {"🪵 MDF 50cm", "🔵 PVC 20cm"})
-def thermowall_product(message):
-    bot.send_message(message.chat.id,
-        product_text(message.text),
-        parse_mode="Markdown", reply_markup=thermowall_kb())
+PVC_IDS = ['181528713:-6359706393042673919:1:d71a0507c98b48f3d7f84da89f35935837fa52e0cd7fa437bbef6dd7a1e4ee1c', '181528713:-8454597426428502269:1:d71a0507c98b48f3d7f84da89f3593584d332d6738a91709bbef6dd7a1e4ee1c', '181528713:-5610972478951973117:1:d71a0507c98b48f3d7f84da89f35935805a47f81651a84aabbef6dd7a1e4ee1c', '181528713:-4812677088037560574:1:d71a0507c98b48f3d7f84da89f3593583a6358cf9cdaafdfbbef6dd7a1e4ee1c', '181528713:-5852724689307164927:1:d71a0507c98b48f3d7f84da89f35935898fd4a62c703a9b4bbef6dd7a1e4ee1c', '181528713:8199534583358103299:1:d71a0507c98b48f3d7f84da89f3593582c3108f98d40275ebbef6dd7a1e4ee1c', '181528713:-3307287448484831486:1:d71a0507c98b48f3d7f84da89f359358693d5570e884ab8dbbef6dd7a1e4ee1c', '181528713:-1332988741735276798:1:d71a0507c98b48f3d7f84da89f35935804a79c741255b31dbbef6dd7a1e4ee1c', '181528713:4148632960874258178:1:d71a0507c98b48f3d7f84da89f359358bef39d925992ad14bbef6dd7a1e4ee1c', '181528713:-5698113112130576640:1:d71a0507c98b48f3d7f84da89f3593589dcd6465eb1f1334bbef6dd7a1e4ee1c', '181528713:-5753164990513864958:1:d71a0507c98b48f3d7f84da89f359358403219ba96e5c978bbef6dd7a1e4ee1c', '181528713:-6777740392750506239:1:d71a0507c98b48f3d7f84da89f359358ef1c7c067658e003bbef6dd7a1e4ee1c']
+MDF_IDS = ['181528713:-5886479367132930302:1:d71a0507c98b48f32218db8ed3f2dc50d854b305ed626c19bbef6dd7a1e4ee1c', '181528713:-1870567644143018239:1:d71a0507c98b48f32218db8ed3f2dc50ee79bc5201e1e8b2bbef6dd7a1e4ee1c', '181528713:-5394457751463125245:1:d71a0507c98b48f32218db8ed3f2dc50ba9f1917e734c806bbef6dd7a1e4ee1c', '181528713:-4536717732469793023:1:d71a0507c98b48f32218db8ed3f2dc50556b989aecc787eabbef6dd7a1e4ee1c', '181528713:-2167114725740962045:1:d71a0507c98b48f32218db8ed3f2dc504526f44f8eeaa5ccbbef6dd7a1e4ee1c', '181528713:-1419028510941634816:1:d71a0507c98b48f32218db8ed3f2dc502ffd09e2d3a901b6bbef6dd7a1e4ee1c', '181528713:8158389194538950400:1:d71a0507c98b48f32218db8ed3f2dc503c8cc6b9ea9592a3bbef6dd7a1e4ee1c', '181528713:9148099177618415362:1:d71a0507c98b48f32218db8ed3f2dc509701afa068a12b8cbbef6dd7a1e4ee1c']
+
+CAPTION_PVC = """🪵 *ترمووال PVC 20cm*
+
+📐 ابعاد: ۲۰ × ۲۸۰ سانتی‌متر
+💰 قیمت: ۶۵۰ تومان
+
+🛒 خرید مستقیم از سایت:
+https://vestadeccor.com/product-category/thermowall/pvc-thermowall/
+
+📞 ثبت سفارش:
+@divar_posh"""
+CAPTION_MDF = """🪵 *ترمووال MDF 50cm*
+
+📐 ابعاد: ۵۰ × ۲۸۰ سانتی‌متر
+💰 قیمت: ۱.۶۵۰ تومان
+
+🛒 خرید مستقیم از سایت:
+https://vestadeccor.com/product-category/thermowall/iranian-coated-thermopanel/
+
+📞 ثبت سفارش:
+@divar_posh"""
+
+def send_photos(chat_id, file_ids, caption, kb):
+    for i, fid in enumerate(file_ids):
+        if i == 0:
+            bot.send_photo(chat_id, fid, caption=caption, parse_mode="Markdown")
+        else:
+            bot.send_photo(chat_id, fid)
+    bot.send_message(chat_id, "👆 عکس‌های محصول", reply_markup=kb)
+
+@bot.message_handler(func=lambda m: m.text == "🔵 PVC 20cm")
+def pvc_product(message):
+    send_photos(message.chat.id, PVC_IDS, CAPTION_PVC, thermowall_kb())
+
+@bot.message_handler(func=lambda m: m.text == "🪵 MDF 50cm")
+def mdf_product(message):
+    send_photos(message.chat.id, MDF_IDS, CAPTION_MDF, thermowall_kb())
 
 # ── زیرمنوی کفپوش ──
 @bot.message_handler(func=lambda m: m.text in {"🌲 طرح پارکت", "🪨 طرح سنگ"})
