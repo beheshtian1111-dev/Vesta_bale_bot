@@ -189,17 +189,31 @@ def floor_menu(message):
         "⬜ *کفپوش*\n\nطرح را انتخاب کنید:",
         parse_mode="Markdown", reply_markup=floor_kb())
 
-@bot.message_handler(func=lambda m: m.text == "🖼 ابزار قاب بندی")
-def abzar(message):
-    bot.send_message(message.chat.id,
-        product_text("ابزار قاب بندی"),
-        parse_mode="Markdown", reply_markup=back_kb())
+LAMSE_IDS = ['181528713:7480628814542282496:0:ef01f5dbfaaa426d48d1e46b939b3a07', '181528713:-5871035327957557501:0:36696e581da9e85948d1e46b939b3a07', '181528713:7222313456172801792:0:ac55bf145561b39c48d1e46b939b3a07', '181528713:7662432913168801537:0:30cb28011b67094648d1e46b939b3a07', '181528713:-5656023503620137215:0:3f7406cc840f589348d1e46b939b3a07', '181528713:5781471483104206592:0:5bcb7c15220daddf48d1e46b939b3a07', '181528713:3644348171039743746:0:6f05e5447c3886e048d1e46b939b3a07', '181528713:-3684190441892667646:0:cc75305eff88278248d1e46b939b3a07', '181528713:2046769108871421698:0:8a8f50671aa9673348d1e46b939b3a07', '181528713:-7785589188324090112:0:bd2003e71dab0f5f48d1e46b939b3a07']
+ABZAR_IDS = ['181528713:-7716135794017231104:0:43f4cc815cd50e4348d1e46b939b3a07', '181528713:-5295275485089685757:0:f6cd754862bdc9d548d1e46b939b3a07', '181528713:1272116883933110017:0:59e8ad5f0c88efc748d1e46b939b3a07', '181528713:692150713988292355:0:4342c1fb610f336c48d1e46b939b3a07', '181528713:-2178671994401579261:0:0127b63cbf05287d48d1e46b939b3a07', '181528713:-7522085076316971262:0:f0e8356a015503cf48d1e46b939b3a07', '181528713:-9005568367304827135:0:8fd4a8e29a7df632407d36e64a219bb497331796b1e0167d']
+
+CAPTION_LAMSE = """💎 *لمسه پشت چسبدار*
+
+📐 ابعاد: ۴۷ × ۴۷ سانتی‌متر
+💰 قیمت پنلی: ۲۷۰ تومان
+
+🛒 خرید مستقیم از سایت:
+https://vestadeccor.com/product-category/wallcovering/adhesive-backed-tactile-wallcovering/
+
+📞 ثبت سفارش:
+@divar_posh"""
+CAPTION_ABZAR = """🖼 *ابزار قاب بندی*
+
+📞 برای قیمت و ثبت سفارش:
+@divar_posh"""
 
 @bot.message_handler(func=lambda m: m.text == "💎 لمسه پشت چسبدار")
 def lamse(message):
-    bot.send_message(message.chat.id,
-        product_text("لمسه پشت چسبدار"),
-        parse_mode="Markdown", reply_markup=back_kb())
+    send_photos(message.chat.id, LAMSE_IDS, CAPTION_LAMSE, back_kb())
+
+@bot.message_handler(func=lambda m: m.text == "🖼 ابزار قاب بندی")
+def abzar(message):
+    send_photos(message.chat.id, ABZAR_IDS, CAPTION_ABZAR, back_kb())
 
 # ── زیرمنوی فومی ──
 FOAM_PRODUCTS = {
