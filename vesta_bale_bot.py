@@ -243,7 +243,7 @@ https://vestadeccor.com/product-category/thermowall/iranian-coated-thermopanel/
 
 def send_photos(chat_id, file_ids, caption, kb):
     for i, fid in enumerate(file_ids):
-        if i == 0:
+        if i == len(file_ids) - 1:
             bot.send_photo(chat_id, fid, caption=caption, parse_mode="Markdown")
         else:
             bot.send_photo(chat_id, fid)
