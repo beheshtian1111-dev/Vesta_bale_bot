@@ -170,11 +170,16 @@ def foam_menu(message):
 def foam_roli(message):
     send_photos(message.chat.id, ROLI_IDS, CAPTION_ROLI, back_kb())
 
+def send_photos_each(chat_id, file_ids, caption):
+    for fid in file_ids:
+        bot.send_photo(chat_id, fid, caption=caption, parse_mode="Markdown")
+
 @bot.message_handler(func=lambda m: m.text == "🪨 ماربل شیت")
 def marble(message):
-    send_photos(message.chat.id, MARBLE_G1, CAPTION_MARBLE_G1, back_kb())
-    send_photos(message.chat.id, MARBLE_G2, CAPTION_MARBLE_G2, back_kb())
-    send_photos(message.chat.id, MARBLE_G3, CAPTION_MARBLE_G3, back_kb())
+    send_photos_each(message.chat.id, MARBLE_G1, CAPTION_MARBLE_G1)
+    send_photos_each(message.chat.id, MARBLE_G2, CAPTION_MARBLE_G2)
+    send_photos_each(message.chat.id, MARBLE_G3, CAPTION_MARBLE_G3)
+    bot.send_message(message.chat.id, "👆 عکس‌های محصول", reply_markup=back_kb())
 
 @bot.message_handler(func=lambda m: m.text == "📏 قرنیز")
 def qarniz(message):
