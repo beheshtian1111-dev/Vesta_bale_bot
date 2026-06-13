@@ -222,10 +222,10 @@ QARNIZ_IDS = ['181528713:-6767833320078106877:0:5a9445d11fb3086a48d1e46b939b3a07
 
 CAPTION_FOAM_7777 = "📐 ابعاد: ۷۰ × ۷۷ سانتی‌متر\n💰 قیمت: ۳۸۰,۰۰۰ تومان\n\n📞 ثبت سفارش:\n@divar_posh"
 CAPTION_FOAM_7070 = "📐 ابعاد: ۷۰ × ۷۰ سانتی‌متر\n💰 قیمت: ۳۸۰,۰۰۰ تومان\n\n📞 ثبت سفارش:\n@divar_posh"
-CAPTION_ROLI = "🌀 *دیوارپوش فومی رولی*\n\n📐 ابعاد: ۷۰ × ۲۸۰ سانتی‌متر\n💰 قیمت: ۱,۰۰۰,۰۰۰ تومان\n\n📞 ثبت سفارش:\n@divar_posh"
-CAPTION_SANG = "🪨 *کفپوش طرح سنگ*\n\n📐 ابعاد: ۶۰ × ۶۰ سانتی‌متر\n💰 قیمت تایلی: ۳۷۰,۰۰۰ تومان\n\n📞 ثبت سفارش:\n@divar_posh"
-CAPTION_PARQUET_NEW = "🌲 *کفپوش طرح پارکت*\n\n📐 هر کارتن: ۳ متر و ۶۰ سانت (تایل ۲۰×۱۲۰)\n💰 قیمت هر کارتن: ۳,۹۶۰,۰۰۰ تومان\n\n📞 ثبت سفارش:\n@divar_posh"
-CAPTION_QARNIZ = "📏 *قرنیز*\n\n📐 ابعاد: ۹ سانت × ۳ متر\n💰 قیمت شاخه‌ای: ۲۶۰,۰۰۰ تومان\n\n📞 ثبت سفارش:\n@divar_posh"
+CAPTION_ROLI = "🌀 *دیوارپوش فومی رولی*\n\n📐 ابعاد: ۷۰ × ۲۸۰ سانتی‌متر\n💰 قیمت: ۱,۰۰۰,۰۰۰ تومان\n\n🛒 خرید از سایت:\nhttps://vestadeccor.com/product-category/wallcovering/foam-roll-wall-covering/\n\n📞 ثبت سفارش:\n@divar_posh"
+CAPTION_SANG = "🪨 *کفپوش طرح سنگ*\n\n📐 ابعاد: ۶۰ × ۶۰ سانتی‌متر\n💰 قیمت تایلی: ۳۷۰,۰۰۰ تومان\n\n🛒 خرید از سایت:\nhttps://vestadeccor.com/product-category/flooring/glue-free-stone-design-flooring/\n\n📞 ثبت سفارش:\n@divar_posh"
+CAPTION_PARQUET_NEW = "🌲 *کفپوش طرح پارکت*\n\n📐 هر کارتن: ۳ متر و ۶۰ سانت (تایل ۲۰×۱۲۰)\n💰 قیمت هر کارتن: ۳,۴۶۰,۰۰۰ تومان\n\n🛒 خرید از سایت:\nhttps://vestadeccor.com/product-category/flooring/parquet-flooring-without-glue/\n\n📞 ثبت سفارش:\n@divar_posh"
+CAPTION_QARNIZ = "📏 *قرنیز*\n\n📐 ابعاد: ۹ سانت × ۳ متر\n💰 قیمت شاخه‌ای: ۲۶۰,۰۰۰ تومان\n\n🛒 خرید از سایت:\nhttps://vestadeccor.com/product-category/cornice/simple-pvc-skirting-board/\n\n📞 ثبت سفارش:\n@divar_posh"
 
 
 MARBLE_G1 = ['2054771725:-1275542834963013888:1:d71a0507c98b48f3923c77614b4757d236988f50bb2937f2', '2054771725:9172055987987750657:1:d71a0507c98b48f3923c77614b4757d28f02bbefa4f7dbe1', '2054771725:-4086072726375489791:1:d71a0507c98b48f3923c77614b4757d28227bd0edab10e83', '2054771725:5934182262166265602:1:d71a0507c98b48f34673a348ec3d7408e4a8ab514a344a95', '2054771725:504405399466876672:1:d71a0507c98b48f3923c77614b4757d29b8ccace61877985', '2054771725:-4409069751647592704:1:d71a0507c98b48f34673a348ec3d740896b8b8cd309c174c', '2054771725:1262058431941582592:1:d71a0507c98b48f3923c77614b4757d2c961bc4b72de8bf2', '2054771725:-4423171849971687678:1:d71a0507c98b48f3923c77614b4757d2a30b8aafa629672a', '2054771725:-3849136685987586301:1:d71a0507c98b48f34673a348ec3d74082a0b639ee8a93a48', '181528713:-4699672401949090047:0:78f2b553deff5da948d1e46b939b3a07', '181528713:4621913676549136130:0:ad4a0e4e27f49ef148d1e46b939b3a07']
@@ -259,7 +259,7 @@ CAPTION_MARBLE_G3 = (f"🪨 *ماربل شیت*\n\n"
 CAPTION_LAMSE = """💎 *لمسه پشت چسبدار*
 
 📐 ابعاد: ۴۷ × ۴۷ سانتی‌متر
-💰 قیمت پنلی: ۲۷۰ تومان
+💰 قیمت پنلی: ۲۷۰,۰۰۰ تومان
 
 🛒 خرید مستقیم از سایت:
 https://vestadeccor.com/product-category/wallcovering/adhesive-backed-tactile-wallcovering/
@@ -287,26 +287,40 @@ FOAM_PRODUCTS = {
     "💠 لوزی", "◼️ مربع", "💎 کریستال", "✨ هشت پر",
 }
 
+FOAM_LINK_AJRBAHMANI = "https://vestadeccor.com/product/foam-wall-covering-bahmani-brick-shape/"
+FOAM_LINK_AJRTAKHT = "https://vestadeccor.com/product/foam-wall-covering-flat-brick-shape/"
+FOAM_LINK_BAMBOO = "https://vestadeccor.com/product/foam-wall-covering-bambo-shape/"
+FOAM_LINK_CRYSTAL = "https://vestadeccor.com/product/foam-wall-covering-crystal-shape/"
+FOAM_LINK_SQUARE = "https://vestadeccor.com/product/foam-wall-cover-grid-square-shape/"
+FOAM_LINK_AJRANTIK = "https://vestadeccor.com/product/foam-wall-covering-antique-brick-shape/"
+FOAM_LINK_AJRKLASIK = "https://vestadeccor.com/product/foam-wall-covering-classic-brick-shape/"
+FOAM_LINK_TARHBETON = "https://vestadeccor.com/product/%d8%af%db%8c%d9%88%d8%a7%d8%b1%d9%be%d9%88%d8%b4-%d9%81%d9%88%d9%85%db%8c-%d8%b7%d8%b1%d8%ad-%d8%a8%d8%aa%d9%86/"
+FOAM_LINK_TERMOFOAM = "https://vestadeccor.com/product/foam-wall-covering-termo-foam-shape/"
+FOAM_LINK_CHAHARPAR = "https://vestadeccor.com/product/foam-wall-covering-char-par-shape/"
+FOAM_LINK_SANGANTIK = "https://vestadeccor.com/product/foam-wall-covering-concrete-shape/"
+FOAM_LINK_LOZI = "https://vestadeccor.com/product/foam-wall-covering-diamond-shape/"
+FOAM_LINK_HASHTPAR = "https://vestadeccor.com/product/foam-wall-covering-hashtpar-shape/"
+
 FOAM_IDS_MAP = {
-    "🟫 آجر بهمنی": (AJRBAHMANI_IDS, CAPTION_FOAM_7777),
-    "🟧 آجر کلاسیک": (AJRKLASIK_IDS, CAPTION_FOAM_7777),
-    "⬛ آجر تخت": (AJRTAKHT_IDS, CAPTION_FOAM_7070),
-    "🔶 چهار پر": (CHAHARPAR_IDS, CAPTION_FOAM_7070),
-    "🩶 طرح بتن": (TARHBETON_IDS, CAPTION_FOAM_7070),
-    "🏛 آجر آنتیک": (AJRANTIK_IDS, CAPTION_FOAM_7070),
-    "🪨 سنگ آنتیک": (SANGANTIK_IDS, CAPTION_FOAM_7070),
-    "🌿 ترمو فوم": (TERMOFOAM_IDS, CAPTION_FOAM_7070),
-    "🎋 بامبو": (BAMBOO_IDS, CAPTION_FOAM_7070),
-    "💠 لوزی": (LOZI_IDS, CAPTION_FOAM_7070),
-    "◼️ مربع": (SQUARE_IDS, CAPTION_FOAM_7070),
-    "💎 کریستال": (CRYSTAL_IDS, CAPTION_FOAM_7070),
-    "✨ هشت پر": (HASHTPAR_IDS, CAPTION_FOAM_7070),
+    "🟫 آجر بهمنی": (AJRBAHMANI_IDS, CAPTION_FOAM_7777, FOAM_LINK_AJRBAHMANI),
+    "🟧 آجر کلاسیک": (AJRKLASIK_IDS, CAPTION_FOAM_7777, FOAM_LINK_AJRKLASIK),
+    "⬛ آجر تخت": (AJRTAKHT_IDS, CAPTION_FOAM_7070, FOAM_LINK_AJRTAKHT),
+    "🔶 چهار پر": (CHAHARPAR_IDS, CAPTION_FOAM_7070, FOAM_LINK_CHAHARPAR),
+    "🩶 طرح بتن": (TARHBETON_IDS, CAPTION_FOAM_7070, FOAM_LINK_TARHBETON),
+    "🏛 آجر آنتیک": (AJRANTIK_IDS, CAPTION_FOAM_7070, FOAM_LINK_AJRANTIK),
+    "🪨 سنگ آنتیک": (SANGANTIK_IDS, CAPTION_FOAM_7070, FOAM_LINK_SANGANTIK),
+    "🌿 ترمو فوم": (TERMOFOAM_IDS, CAPTION_FOAM_7070, FOAM_LINK_TERMOFOAM),
+    "🎋 بامبو": (BAMBOO_IDS, CAPTION_FOAM_7070, FOAM_LINK_BAMBOO),
+    "💠 لوزی": (LOZI_IDS, CAPTION_FOAM_7070, FOAM_LINK_LOZI),
+    "◼️ مربع": (SQUARE_IDS, CAPTION_FOAM_7070, FOAM_LINK_SQUARE),
+    "💎 کریستال": (CRYSTAL_IDS, CAPTION_FOAM_7070, FOAM_LINK_CRYSTAL),
+    "✨ هشت پر": (HASHTPAR_IDS, CAPTION_FOAM_7070, FOAM_LINK_HASHTPAR),
 }
 
 @bot.message_handler(func=lambda m: m.text in FOAM_PRODUCTS)
 def foam_product(message):
-    ids, caption = FOAM_IDS_MAP[message.text]
-    full_caption = f"{message.text} 🏷\n\n{caption}"
+    ids, caption, link = FOAM_IDS_MAP[message.text]
+    full_caption = f"{message.text} 🏷\n\n{caption}\n\n🛒 خرید از سایت:\n{link}"
     send_photos(message.chat.id, ids, full_caption, foam_kb())
 
 # ── زیرمنوی ترمووال ──
@@ -316,7 +330,7 @@ MDF_IDS = ['181528713:-5886479367132930302:1:d71a0507c98b48f32218db8ed3f2dc50d85
 CAPTION_PVC = """🪵 *ترمووال PVC 20cm*
 
 📐 ابعاد: ۲۰ × ۲۸۰ سانتی‌متر
-💰 قیمت: ۶۵۰ تومان
+💰 قیمت: ۶۵۰,۰۰۰ تومان
 
 🛒 خرید مستقیم از سایت:
 https://vestadeccor.com/product-category/thermowall/pvc-thermowall/
@@ -326,7 +340,7 @@ https://vestadeccor.com/product-category/thermowall/pvc-thermowall/
 CAPTION_MDF = """🪵 *ترمووال MDF 50cm*
 
 📐 ابعاد: ۵۰ × ۲۸۰ سانتی‌متر
-💰 قیمت: ۱.۶۵۰ تومان
+💰 قیمت: ۱,۶۰۰,۰۰۰ تومان
 
 🛒 خرید مستقیم از سایت:
 https://vestadeccor.com/product-category/thermowall/iranian-coated-thermopanel/
