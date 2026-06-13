@@ -1,0 +1,11 @@
+{
+  "platform": "python",
+  "app": "vestadecorbot",
+  "port": 8000,
+  "build": {
+    "location": "iran"
+  },
+  "start": {
+    "command": "python3 vesta_bale_bot.py"
+  }
+}
