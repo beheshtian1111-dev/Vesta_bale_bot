@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>مسیر موفقیت من | پلنر وستا</title>
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="پلنر وستا">
+<style>
+  :root {
+    --bg: #F7F3EC;
+    --card: #FFFFFF;
+    --ink: #20242B;
+    --ink-soft: #8A8578;
+    --muted-bg: #EFEAE0;
+    --header-bg: #20242B;
+    --header-bg-2: #33394A;
+    --gold: #C9A227;
+    --flame: #E8A33D;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    font-family: 'Vazirmatn', Tahoma, 'Segoe UI', system-ui, sans-serif;
+    color: var(--ink);
+    padding-bottom: 60px;
+    overflow-x: hidden;
+  }
+
+  /* ---------- keyframes ---------- */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .enter { animation: fadeSlideUp .6s cubic-bezier(.22,.9,.34,1) both; }
+
+  @keyframes popScale {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(1.28); }
+    65%  { transform: scale(.94); }
+    100% { transform: scale(1); }
+  }
+  .pop { animation: popScale .38s cubic-bezier(.34,1.56,.64,1); }
+
+  @keyframes pulseFlame {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50%     { transform: scale(1.18); opacity: .78; }
+  }
+  @keyframes rotateHalo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes confettiFall { to { transform: translateY(112vh) rotate(760deg); opacity: .25; } }
+
+  /* ---------- header ---------- */
+  .header { background: linear-gradient(155deg, #20242B 0%, #262c36 55%, #1c2027 100%); padding: 32px 20px 28px; position: relative; overflow: hidden; }
+  .header-inner { max-width: 520px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: relative; z-index: 1; }
+  .eyebrow { font-size: 12px; color: var(--gold); display: flex; align-items: center; gap: 4px; }
+  h1 { font-size: 24px; margin: 6px 0 0; color: var(--bg); }
+  .motiv { font-size: 12px; color: #A9A499; margin-top: 8px; transition: opacity .25s; }
+  .streak { font-size: 12px; color: var(--flame); font-weight: 600; margin-top: 8px; display: flex; align-items: center; gap: 4px; animation: pulseFlame 1.9s ease-in-out infinite; width: fit-content; }
+  .ring-wrap { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); position: relative; z-index: 1; }
+  .ring-halo { position: absolute; inset: -16px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0%, rgba(201,162,39,.55) 18%, transparent 40%, transparent 60%, rgba(201,162,39,.35) 82%, transparent 100%); filter: blur(7px); animation: rotateHalo 7s linear infinite; z-index: 0; }
+  .ring-wrap.glow #ringFg { filter: drop-shadow(0 0 7px rgba(201,162,39,.85)); }
+  #ringFg { transition: stroke-dashoffset .6s cubic-bezier(.22,.9,.34,1), filter .3s ease; }
+  .ring-percent { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: var(--bg); z-index: 1; }
+
+  #confettiRoot { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+
+  .promo-bar {
+    max-width: 520px; margin: 0 auto; padding: 8px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #1A1D24; position: relative; z-index: 1;
+  }
+  .promo-bar-text { font-size: 11px; font-weight: 700; color: var(--gold); }
+  .promo-bar-links { display: flex; align-items: center; gap: 6px; }
+  .promo-icon-btn {
+    width: 26px; height: 26px; border-radius: 8px; background: #2A2F39; color: #F7F3EC;
+    display: flex; align-items: center; justify-content: center; text-decoration: none;
+    transition: transform .12s ease, background .15s;
+  }
+  .promo-icon-btn:active { transform: scale(.88); background: var(--gold); color: #20242B; }
+
+  .promo-card { background: linear-gradient(135deg, #FF3D77 0%, #FF6A3D 60%, #FF9A3D 100%); box-shadow: 0 4px 16px rgba(255,61,119,.35); }
+  .promo-card .promo-card-text { color: rgba(255,255,255,.92); }
+  .promo-card-title { font-size: 14px; font-weight: 700; color: var(--bg); margin-bottom: 6px; }
+  .promo-card-text { font-size: 12px; color: #A9A499; line-height: 1.6; margin: 0 0 12px; }
+  .promo-card-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .promo-link-btn {
+    flex: 1; min-width: 90px; text-align: center; padding: 9px 6px; border-radius: 10px;
+    font-size: 12px; font-weight: 700; text-decoration: none; transition: transform .12s ease, filter .15s;
+  }
+  .promo-link-btn:active { transform: scale(.95); filter: brightness(.92); }
+  .promo-link-btn.ig { background: linear-gradient(135deg,#4F5BD5,#962FBF,#D62976,#F26C22); color: #fff; }
+  .promo-link-btn.tg { background: #229ED9; color: #fff; }
+  .promo-link-btn.web { background: var(--gold); color: #20242B; }
+  .confetti-piece { position: absolute; top: -12px; border-radius: 2px; animation: confettiFall linear forwards; }
+
+  .container { max-width: 520px; margin: -12px auto 0; padding: 0 16px; position: relative; z-index: 1; }
+  .card { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 14px; font-weight: 700; margin: 0 0 10px; }
+  .card p.sub { font-size: 11px; color: var(--ink-soft); margin: -6px 0 12px; }
+  label.small { font-size: 12px; font-weight: 600; }
+  textarea, input[type=text], input[type=number] { font-family: inherit; border: none; outline: none; background: var(--bg); color: var(--ink); border-radius: 10px; padding: 8px; font-size: 14px; transition: box-shadow .15s; }
+  textarea:focus, input:focus { box-shadow: 0 0 0 2px rgba(201,162,39,.45); }
+  textarea { width: 100%; resize: none; margin-top: 8px; }
+
+  .quote-card { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg,#FBF6E9,#F7F3EC); }
+  .quote-icon { font-size: 24px; flex-shrink: 0; }
+  .quote-text { font-size: 13px; font-weight: 600; line-height: 1.6; }
+
+  .day-strip { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
+  .day-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .day-col span.d { font-size: 11px; font-weight: 700; }
+  .day-col svg { width: 100%; height: 90px; display: block; }
+  .wave-group { transition: transform .5s cubic-bezier(.22,.9,.34,1); }
+  .day-col span.pct { font-size: 10px; font-weight: 700; }
+
+  .heatmap-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .heatmap-nav { display: flex; align-items: center; gap: 8px; }
+  .hm-nav-btn { background: var(--muted-bg); border: none; width: 26px; height: 26px; border-radius: 8px; font-size: 15px; line-height: 1; cursor: pointer; color: var(--ink); transition: transform .12s ease, background .15s; }
+  .hm-nav-btn:active { transform: scale(.85); background: #e6e0d2; }
+  .hm-label { font-size: 12px; font-weight: 700; min-width: 92px; text-align: center; }
+  .heatmap-dow { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 6px; }
+  .heatmap-dow span { display: block; text-align: center; font-size: 11px; font-weight: 700; }
+  .heatmap-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+  .hm-cell { aspect-ratio: 1; }
+  .hm-cell svg { width: 100%; height: 100%; display: block; }
+  .heatmap-legend { text-align: left; margin-top: 10px; font-size: 10px; color: var(--ink-soft); }
+
+  .ach-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .ach-card { border-radius: 14px; padding: 12px 4px; text-align: center; transition: transform .15s ease; background: var(--bg); }
+  .ach-card.locked { opacity: .38; filter: grayscale(1); }
+  .ach-card.unlocked { background: linear-gradient(160deg,#fff,#FBF3D9); box-shadow: 0 2px 8px rgba(201,162,39,.28); }
+  .ach-emoji { font-size: 30px; line-height: 1; margin-bottom: 6px; }
+  .ach-name { font-size: 10.5px; font-weight: 700; line-height: 1.3; }
+  .ach-desc { font-size: 9px; color: var(--ink-soft); margin-top: 2px; line-height: 1.3; }
+
+  .cat-card { border-right: 4px solid var(--cat-color, var(--gold)); }
+
+  .tiles-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 16px; }
+  .tile { background: var(--card); border-radius: 16px; padding: 16px 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border: none; cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform .12s ease, box-shadow .2s; }
+  .tile:active { transform: scale(.95); }
+  .tile-icon { width: 100%; height: 96px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 62px; line-height: 1; }
+  .tile-name { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .tile-ring-wrap { position: relative; width: 36px; height: 36px; }
+  .tile-ring-wrap svg { transform: rotate(-90deg); display: block; }
+  .tile-ring-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; }
+  .tile-count { font-size: 9.5px; color: var(--ink-soft); }
+  .add-cat-tile { background: var(--muted-bg); box-shadow: none; border: 2px dashed #D8D0BC; }
+  .add-cat-tile .tile-icon { font-size: 40px; color: var(--ink-soft); font-weight: 300; }
+  .add-cat-tile .tile-name { color: var(--ink-soft); }
+
+  .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--ink); padding: 0; transition: transform .12s ease; }
+  .back-btn:active { transform: scale(.95); }
+  .edit-cat-btn { background: var(--muted-bg); border: none; width: 32px; height: 32px; border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .12s ease; }
+  .edit-cat-btn:active { transform: scale(.88); }
+  .cat-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .cat-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--cat-color); display: inline-block; }
+  .cat-ring-wrap { position: relative; width: 44px; height: 44px; flex-shrink: 0; }
+  .cat-ring-wrap svg { transform: rotate(-90deg); display: block; }
+  .cat-ring-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+  .cat-count { font-size: 10px; color: var(--ink-soft); text-align: left; margin-bottom: 8px; }
+
+  .emoji-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; max-height: 168px; overflow-y: auto; padding: 6px; background: var(--bg); border-radius: 10px; }
+  .emoji-opt { background: none; border: 2px solid transparent; border-radius: 8px; font-size: 21px; padding: 4px 0; cursor: pointer; line-height: 1.3; transition: transform .1s ease, border-color .15s, background .15s; }
+  .emoji-opt.selected { border-color: var(--gold); background: #FBF3D9; }
+  .emoji-opt:active { transform: scale(.86); }
+  .delete-cat-link { display: block; margin-top: 12px; background: none; border: none; color: #D64545; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0; }
+
+  table { width: 100%; border-collapse: collapse; min-width: 430px; }
+  th { font-size: 11px; font-weight: 400; color: var(--ink-soft); padding-bottom: 6px; }
+  th.name-col, td.name-col { text-align: right; padding-right: 4px; }
+  td { text-align: center; padding: 4px 0; font-size: 13px; }
+  .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .chk { width: 26px; height: 26px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 auto; background: var(--muted-bg); transition: background .18s, box-shadow .2s, transform .12s ease; }
+  .chk.on { background: var(--cat-color); box-shadow: 0 2px 7px rgba(0,0,0,.18); }
+  .chk:active { transform: scale(.88); }
+  .chk svg { display: none; }
+  .chk.on svg { display: block; }
+
+  .num-input { width: 38px; text-align: center; border-radius: 8px; padding: 6px 2px; font-size: 12px; background: var(--muted-bg); color: var(--ink); border: none; margin: 0 auto; display: block; transition: background .18s, color .18s, box-shadow .2s; }
+  .num-input.on { background: var(--cat-color); color: #fff; box-shadow: 0 2px 7px rgba(0,0,0,.18); }
+
+  .target-row { display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+  .target-row span { font-size: 10px; color: var(--ink-soft); }
+  .target-row input, .target-row select { font-size: 10px; border-radius: 6px; padding: 2px 4px; background: var(--bg); border: none; }
+  .target-row input { width: 34px; }
+
+  .del-btn { background: none; border: none; cursor: pointer; opacity: .4; padding: 4px; transition: opacity .15s, transform .12s ease; }
+  .del-btn:active { opacity: 1; transform: scale(.85); }
+
+  .add-form { margin-top: 12px; }
+  .add-type-toggle { display: flex; gap: 6px; margin-top: 8px; }
+  .add-type-btn { flex: 1; padding: 7px 4px; border-radius: 9px; border: none; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; background: var(--muted-bg); color: var(--ink-soft); transition: background .15s, color .15s, transform .12s ease; }
+  .add-type-btn.selected { background: #20242B; color: #F7F3EC; }
+  .add-type-btn:active { transform: scale(.96); }
+  .counter-opts { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; color: var(--ink-soft); }
+  .counter-opts input { width: 46px; }
+  .add-row { display: flex; gap: 8px; margin-top: 10px; }
+  .add-row input { flex: 1; }
+  .icon-btn { width: 36px; height: 36px; border-radius: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .12s ease, filter .15s; }
+  .icon-btn:active { transform: scale(.88); filter: brightness(.92); }
+  .add-link { margin-top: 12px; background: none; border: none; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--cat-color); padding: 0; transition: transform .12s ease; }
+  .add-link:active { transform: scale(.94); }
+
+  .note-item { display: flex; align-items: center; gap: 8px; background: var(--bg); border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; }
+  .note-item span { flex: 1; font-size: 14px; }
+
+  .rating-card { background: var(--header-bg); }
+  .rating-card h2, .rating-card p.sub { color: var(--bg); }
+  .rating-grid { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .rating-btn { width: 34px; height: 34px; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; font-size: 14px; background: var(--header-bg-2); color: var(--bg); transition: background .18s, transform .12s ease, box-shadow .2s; }
+  .rating-btn.selected { background: var(--gold); color: var(--header-bg); box-shadow: 0 0 10px rgba(201,162,39,.6); }
+  .rating-btn:active { transform: scale(.88); }
+  .rating-msg { text-align: center; font-size: 13px; margin-top: 14px; font-weight: 600; color: var(--gold); min-height: 18px; }
+
+  .reset-btn { width: 100%; padding: 14px; border-radius: 16px; border: none; cursor: pointer; background: var(--muted-bg); color: var(--ink); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; transition: transform .12s ease, background .15s; }
+  .reset-btn:active { transform: scale(.97); background: #e6e0d2; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div style="flex:1">
+      <div class="eyebrow">✦ پلنر روزانه وستا</div>
+      <h1>مسیر موفقیت من</h1>
+      <div class="motiv" id="motivLine"></div>
+      <div class="streak" id="streakLine" style="display:none">🔥 <span id="streakNum"></span> روز پشت سر هم کامل!</div>
+    </div>
+    <div class="ring-wrap" id="ringWrap">
+      <div class="ring-halo"></div>
+      <svg width="100" height="100">
+        <circle cx="50" cy="50" r="45" stroke="#33394A" stroke-width="10" fill="none"></circle>
+        <circle id="ringFg" cx="50" cy="50" r="45" stroke="#C9A227" stroke-width="10" fill="none"
+          stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round"></circle>
+      </svg>
+      <div class="ring-percent" id="ringPct">0%</div>
+    </div>
+  </div>
+</div>
+
+<div id="confettiRoot"></div>
+
+<div class="promo-bar">
+  <span class="promo-bar-text">🛋️ وستا دکور</span>
+  <div class="promo-bar-links">
+    <a href="https://instagram.com/divar.posh" target="_blank" rel="noopener" class="promo-icon-btn" aria-label="اینستاگرام">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l2-3h12l2 3"/><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.4"/></svg>
+    </a>
+    <a href="https://t.me/Diivarpoosh" target="_blank" rel="noopener" class="promo-icon-btn" aria-label="تلگرام">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    </a>
+    <a href="https://vestadeccor.com" target="_blank" rel="noopener" class="promo-icon-btn" aria-label="وبسایت">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+    </a>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card enter quote-card" style="animation-delay:.02s">
+    <div class="quote-icon">💬</div>
+    <div id="dailyQuote" class="quote-text"></div>
+  </div>
+
+  <div class="card enter" style="animation-delay:.05s">
+    <label class="small">تمرکز اصلی هفته</label>
+    <textarea id="focusInput" rows="2" placeholder="مثلاً: بدون هیچ بهانه‌ای ۴ لیتر آب و پیاده‌روی رو هر روز کامل کنم"></textarea>
+  </div>
+
+  <div class="card enter" style="animation-delay:.1s">
+    <h2>پیشرفت روزهای هفته</h2>
+    <div class="day-strip" id="dayStrip"></div>
+  </div>
+
+  <div class="card enter" style="animation-delay:.14s">
+    <div class="heatmap-head">
+      <h2 style="margin:0">تقویم پیشرفت</h2>
+      <div class="heatmap-nav">
+        <button class="hm-nav-btn" onclick="shiftHeatmapMonth(-1)">‹</button>
+        <span id="heatmapLabel" class="hm-label"></span>
+        <button class="hm-nav-btn" onclick="shiftHeatmapMonth(1)">›</button>
+      </div>
+    </div>
+    <div class="heatmap-dow" id="heatmapDow"></div>
+    <div class="heatmap-grid" id="heatmapGrid"></div>
+    <div class="heatmap-legend">
+      🎨 رنگ = روز هفته &nbsp;·&nbsp; 💧 سطح مایع = درصد انجام همون روز
+    </div>
+  </div>
+
+  <div class="card enter" style="animation-delay:.18s">
+    <h2>دستاوردها</h2>
+    <p class="sub">با ادامه دادن، این نشان‌ها رو باز کن.</p>
+    <div class="ach-grid" id="achievementsGrid"></div>
+  </div>
+
+  <div id="categoriesHome" class="tiles-grid"></div>
+
+  <div id="addCategoryForm" class="card enter" style="display:none;">
+    <button class="back-btn" style="margin-bottom:14px;" onclick="closeAddCategoryForm()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      بازگشت
+    </button>
+    <h2>افزودن بخش جدید</h2>
+    <input type="text" id="newCatName" placeholder="اسم بخش (مثلاً: خانواده)" style="width:100%; margin-bottom:12px;">
+    <p class="sub" style="margin:-4px 0 6px;">یه استیکر برای این بخش انتخاب کن:</p>
+    <div class="emoji-grid" id="addCatEmojiGrid"></div>
+    <div class="add-row">
+      <button class="icon-btn" style="background:#20242B" onclick="confirmAddCategory()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+      <button class="icon-btn" style="background:#EFEAE0" onclick="closeAddCategoryForm()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="categoryDetail" class="card cat-card enter" style="display:none;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+      <button class="back-btn" onclick="closeCategoryDetail()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        بازگشت به همه‌ی بخش‌ها
+      </button>
+      <button class="edit-cat-btn" onclick="toggleEditCategoryForm()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+    </div>
+    <div id="editCategoryForm" style="display:none; margin-bottom:16px;">
+      <input type="text" id="editCatName" style="width:100%; margin-bottom:10px;">
+      <div class="emoji-grid" id="editCatEmojiGrid"></div>
+      <div class="add-row">
+        <button class="icon-btn" style="background:#20242B" onclick="confirmEditCategory()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <button class="icon-btn" style="background:#EFEAE0" onclick="toggleEditCategoryForm()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <button class="delete-cat-link" onclick="deleteCurrentCategory()">حذف این بخش</button>
+    </div>
+    <div id="categoryDetailContent"></div>
+  </div>
+
+  <div class="card enter" id="notesCard" style="animation-delay:.5s">
+    <h2>یادداشت‌ها و یادآوری‌های موقت</h2>
+    <p class="sub">هرچی یادت میاد همینجا بنویس، بعد از انجام یا خوندنش پاکش کن.</p>
+    <div id="notesList"></div>
+    <div class="add-row">
+      <input type="text" id="noteInput" placeholder="یادداشت جدید...">
+      <button class="icon-btn" style="background:#20242B" onclick="addNote()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="card rating-card enter" style="animation-delay:.56s">
+    <h2>نمره‌ی این هفته به خودت چنده؟</h2>
+    <p class="sub">آخر هفته با خودت رو راست باش.</p>
+    <div class="rating-grid" id="ratingGrid"></div>
+    <div class="rating-msg" id="ratingMsg"></div>
+  </div>
+
+  <div class="card promo-card enter" style="animation-delay:.6s">
+    <div class="promo-card-title">🛋️ این پلنر رو وستا دکور ساخته</div>
+    <p class="promo-card-text">اگه دنبال دیوارپوش فومی، کاغذ دیواری، ترمووال یا ایده‌های دکوراسیونی، سر بزن بهمون:</p>
+    <div class="promo-card-links">
+      <a href="https://instagram.com/divar.posh" target="_blank" rel="noopener" class="promo-link-btn ig">اینستاگرام</a>
+      <a href="https://t.me/Diivarpoosh" target="_blank" rel="noopener" class="promo-link-btn tg">تلگرام</a>
+      <a href="https://vestadeccor.com" target="_blank" rel="noopener" class="promo-link-btn web">وبسایت</a>
+    </div>
+  </div>
+
+  <button class="reset-btn enter" style="animation-delay:.62s" onclick="resetWeek()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+    شروع هفته جدید (پاک کردن تیک‌ها و نمره)
+  </button>
+
+</div>
+
+<script>
+const STORAGE_KEY = "vesta-daily-planner-html-v1";
+const DAY_SHORT = ["ش","ی","د","س","چ","پ","ج"];
+const RING_CIRCUMFERENCE = 282.7;
+const CAT_RING_R = 19;
+const CAT_RING_CIRC = 2 * Math.PI * CAT_RING_R;
+const TILE_RING_R = 14;
+const TILE_RING_CIRC = 2 * Math.PI * TILE_RING_R;
+const RAINBOW_COLORS = ["#E63946","#F4802A","#F4C623","#2FB380","#2E90FA","#5B5CC4","#9B5DE5"]; // ش ی د س چ پ ج
+const EXTRA_COLORS = ["#18A85A","#8B5CF6","#F2711C","#2E90FA","#06B6D4","#EC4899","#EAB308","#EF4444","#14B8A6","#6366F1","#84CC16","#F97316"];
+const DEFAULT_EMOJI_BY_ID = { body:"🏃‍♂️", mind:"🧘", growth:"📚", content:"🎬", biz:"💼" };
+const EMOJI_PALETTE = ["🏃‍♂️","🧘","📚","🎬","💼","💰","🛍️","😴","💧","🍎","🎯","⭐","🔥","❤️","📈","📅","💡","🎨","🎵","📷","📱","💻","🎁","🌿","☀️","🌙","✏️","☕","🚀","🙏"];
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function zeros(){ return [0,0,0,0,0,0,0]; }
+function falses(){ return [false,false,false,false,false,false,false]; }
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+function defaultData(){
+  return {
+    focus: "",
+    rating: null,
+    notes: [],
+    seenAchievements: [],
+    categories: [
+      { id:"body", name:"سلامت جسم", color:"#18A85A", emoji:"🏃‍♂️", habits:[
+        { id:uid(), name:"بیداری ساعت ۷ صبح", type:"boolean", days:falses() },
+        { id:uid(), name:"دوش آب سرد", type:"boolean", days:falses() },
+        { id:uid(), name:"خوردن ۴ لیتر آب", type:"boolean", days:falses() },
+        { id:uid(), name:"پیاده‌روی", type:"counter", unit:"دقیقه", target:20, days:zeros() },
+        { id:uid(), name:"خواب قبل از ساعت ۱۲", type:"boolean", days:falses() },
+      ]},
+      { id:"mind", name:"ذهن و روان", color:"#8B5CF6", emoji:"🧘", habits:[
+        { id:uid(), name:"مدیتیشن", type:"boolean", days:falses() },
+        { id:uid(), name:"شکرگذاری", type:"boolean", days:falses() },
+        { id:uid(), name:"ترک عادت بد", type:"boolean", days:falses() },
+      ]},
+      { id:"growth", name:"رشد و یادگیری", color:"#F2711C", emoji:"📚", habits:[
+        { id:uid(), name:"تمرین ترید کردن", type:"boolean", days:falses() },
+        { id:uid(), name:"یادگیری یک مهارت", type:"boolean", days:falses() },
+        { id:uid(), name:"خواندن ۱۰ صفحه کتاب", type:"boolean", days:falses() },
+      ]},
+      { id:"content", name:"محتوا و رسانه", color:"#2E90FA", emoji:"🎬", habits:[
+        { id:uid(), name:"پست یوتیوب", type:"counter", unit:"پست", target:1, days:zeros() },
+        { id:uid(), name:"پست آپارات", type:"counter", unit:"پست", target:1, days:zeros() },
+        { id:uid(), name:"پست تلگرام", type:"counter", unit:"پست", target:3, days:zeros() },
+      ]},
+      { id:"biz", name:"مدیریت کسب‌وکار", color:"#06B6D4", emoji:"💼", habits:[
+        { id:uid(), name:"چک پیام‌های تلگرام", type:"boolean", days:falses() },
+        { id:uid(), name:"چک پیام‌های روبیکا", type:"boolean", days:falses() },
+        { id:uid(), name:"چک پیام‌های بله", type:"boolean", days:falses() },
+        { id:uid(), name:"محصول‌گذاری در باسلام (۳۰ دقیقه)", type:"boolean", days:falses() },
+        { id:uid(), name:"آپدیت محصولات سایت (۲ ساعت)", type:"boolean", days:falses() },
+      ]},
+    ]
+  };
+}
+
+function loadData(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) { console.error(e); }
+  return defaultData();
+}
+
+let data = loadData();
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+function isoDate(d){ return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); }
+function parseISO(iso){ const [y,m,d] = iso.split('-').map(Number); return new Date(y, m-1, d); }
+function addDaysISO(iso, n){ const d = parseISO(iso); d.setDate(d.getDate()+n); return isoDate(d); }
+function mostRecentSaturdayISO(d){
+  const day = d.getDay();
+  const diff = (day - 6 + 7) % 7;
+  const res = new Date(d);
+  res.setDate(d.getDate() - diff);
+  return isoDate(res);
+}
+
+if (!data.weekStartDate) data.weekStartDate = mostRecentSaturdayISO(new Date());
+if (!data.history) data.history = {};
+if (!data.weekLog) data.weekLog = [];
+if (!data.seenAchievements) data.seenAchievements = [];
+data.categories.forEach(c => { if (!c.emoji) c.emoji = DEFAULT_EMOJI_BY_ID[c.id] || "📌"; });
+
+function saveData(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) { console.error(e); }
+}
+
+function fraction(h, i){
+  if (h.type === "boolean") return h.days[i] ? 1 : 0;
+  const v = h.days[i] || 0;
+  const t = h.target || 1;
+  return Math.min(v/t, 1);
+}
+function catPercent(c){
+  let slots=0, done=0;
+  c.habits.forEach(h => h.days.forEach((_,i) => { slots++; done += fraction(h,i); }));
+  return slots ? (done/slots)*100 : 0;
+}
+function catCounts(c){
+  let total=0, done=0;
+  c.habits.forEach(h => h.days.forEach((_,i) => { total++; if (fraction(h,i) >= 1) done++; }));
+  return { done, total };
+}
+function overallPercent(){
+  let slots=0, done=0;
+  data.categories.forEach(c => c.habits.forEach(h => h.days.forEach((_,i) => { slots++; done += fraction(h,i); })));
+  return slots ? (done/slots)*100 : 0;
+}
+function dayPercent(i){
+  let slots=0, done=0;
+  data.categories.forEach(c => c.habits.forEach(h => { slots++; done += fraction(h,i); }));
+  return slots ? (done/slots)*100 : 0;
+}
+function motivationLine(p){
+  if (p>=90) return "بی‌نظیری! همینطوری ادامه بده 🔥";
+  if (p>=70) return "عالی پیش می‌ری، محکم بچسب بهش";
+  if (p>=40) return "خوبه، ولی جا برای بهتر شدن هست";
+  if (p>0) return "شروع کردی، همینم یه قدمه";
+  return "امروز رو با یه تیک شروع کن";
+}
+function ratingMessage(r){
+  if (r===null || r===undefined) return "";
+  if (r>=9) return "هفته‌ی فوق‌العاده‌ای بود. تو داری استاندارد خودتو می‌سازی 🏆";
+  if (r>=7) return "هفته‌ی قوی‌ای بود. همین مسیر رو ادامه بده 💪";
+  if (r>=5) return "بد نبود، ولی می‌دونی می‌تونی بهتر از این باشی.";
+  if (r>=3) return "هفته‌ی سختی بود. مهم اینه که هفته‌ی بعد دوباره شروع کنی.";
+  return "افت داشتی، اشکالی نداره. یه شروع تازه از فردا 🌱";
+}
+
+function archiveCurrentWeek(){
+  for (let i=0;i<7;i++){
+    const dateKey = addDaysISO(data.weekStartDate, i);
+    data.history[dateKey] = Math.round(dayPercent(i)*10)/10;
+  }
+  data.weekLog.push({ weekStart: data.weekStartDate, avgPercent: Math.round(overallPercent()*10)/10, rating: data.rating });
+  if (data.weekLog.length > 26) data.weekLog.shift();
+}
+function startFreshWeek(){
+  data.categories.forEach(c => c.habits.forEach(h => { h.days = h.type==='boolean' ? falses() : zeros(); }));
+  data.rating = null;
+  data.weekStartDate = addDaysISO(data.weekStartDate, 7);
+}
+function checkWeekRollover(){
+  const todayISO = isoDate(new Date());
+  let guard = 0;
+  while (addDaysISO(data.weekStartDate,7) <= todayISO && guard < 52){
+    archiveCurrentWeek();
+    startFreshWeek();
+    guard++;
+  }
+  saveData();
+}
+
+function computeLongestStreakEver(){
+  const entries = {};
+  Object.keys(data.history).forEach(k => entries[k] = data.history[k]);
+  for (let i=0;i<7;i++){
+    const dISO = addDaysISO(data.weekStartDate, i);
+    if (entries[dISO] === undefined) entries[dISO] = dayPercent(i);
+  }
+  const dates = Object.keys(entries).sort();
+  let longest=0, current=0, prevDate=null, prevFull=false;
+  dates.forEach(dISO => {
+    const isFull = entries[dISO] >= 99.9;
+    if (isFull && prevFull && prevDate && addDaysISO(prevDate,1)===dISO) current += 1;
+    else if (isFull) current = 1;
+    else current = 0;
+    longest = Math.max(longest, current);
+    prevDate = dISO;
+    prevFull = isFull;
+  });
+  return longest;
+}
+
+const ACHIEVEMENTS = [
+  { id:'start',    emoji:'🌱', name:'شروع مسیر',        desc:'اولین هفته‌تو تموم کردی',        check: () => data.weekLog.length >= 1 },
+  { id:'streak3',  emoji:'🔥', name:'۳ روز متوالی',     desc:'۳ روز پشت‌سرهم صددرصد',           check: () => computeLongestStreakEver() >= 3 },
+  { id:'streak7',  emoji:'🏆', name:'۷ روز متوالی',     desc:'یک هفته‌ی کامل بدون وقفه',        check: () => computeLongestStreakEver() >= 7 },
+  { id:'streak14', emoji:'💎', name:'۱۴ روز متوالی',    desc:'دو هفته‌ی پیوسته و منظم',         check: () => computeLongestStreakEver() >= 14 },
+  { id:'shine',    emoji:'⭐', name:'هفته‌ی درخشان',    desc:'یه هفته با نمره‌ی ۹۰٪ یا بیشتر',  check: () => data.weekLog.some(w=>w.avgPercent>=90) },
+  { id:'month',    emoji:'🎯', name:'یک ماه پیگیری',    desc:'۴ هفته متوالی ثبت کردی',          check: () => data.weekLog.length >= 4 },
+];
+
+function buildAchievements(){
+  const grid = document.getElementById('achievementsGrid');
+  if (!grid) return;
+  let newlyUnlocked = false;
+  grid.innerHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = a.check();
+    if (unlocked && !data.seenAchievements.includes(a.id)){
+      data.seenAchievements.push(a.id);
+      newlyUnlocked = true;
+    }
+    return `<div class="ach-card ${unlocked?'unlocked':'locked'}">
+      <div class="ach-emoji">${a.emoji}</div>
+      <div class="ach-name">${escapeHtml(a.name)}</div>
+      <div class="ach-desc">${escapeHtml(a.desc)}</div>
+    </div>`;
+  }).join('');
+  if (newlyUnlocked){ saveData(); fireConfetti(90); }
+}
+
+const DAILY_QUOTES = [
+  "امروز رو با یه قدم کوچیک شروع کن، نه با بهانه‌ی بزرگ.",
+  "پیوستگی از انگیزه‌ی لحظه‌ای قوی‌تره.",
+  "هر تیکی که می‌زنی، یه آجر از موفقیتته.",
+  "کسی که هر روز ۱٪ بهتر بشه، در یک سال چند برابر می‌شه.",
+  "بهترین زمان برای شروع، همینه که هست.",
+  "نظم امروز، آزادی فرداست.",
+  "کوچیک شروع کن، ولی هر روز شروع کن.",
+  "موفقیت یعنی جمع تصمیم‌های کوچیک روزانه.",
+  "خسته شدی؟ بازم ادامه بده، همینه که فرق می‌کنه.",
+  "هیچ‌کس یک‌شبه به جایی نرسیده.",
+  "امروز رو طوری بگذرون که فردا بهش افتخار کنی.",
+  "عادت‌های خوب سخت می‌سازن، ولی زندگی رو راحت می‌کنن.",
+  "پیشرفت هدف امروزته، نه کمال.",
+  "هر روز یه فرصت تازه‌ست برای بهتر شدن.",
+  "تو همون آدمی هستی که هر روز انتخابش می‌کنی که باشی.",
+  "قدم بردار، حتی اگه خیلی کوچیک باشه.",
+  "انگیزه شروعت می‌کنه، عادت نگه‌ت می‌داره.",
+  "امروز رو بساز، فردا برداشت کن.",
+  "هیچ تلاشی هدر نمی‌ره.",
+  "راه هزار قدمی، با یک قدم شروع می‌شه.",
+  "خودتو با دیروزت مقایسه کن، نه با بقیه.",
+  "استراحت کن، ولی تسلیم نشو.",
+  "هر بار که تیک می‌زنی، به خودت ثابت می‌کنی که می‌تونی.",
+  "بهانه‌ها همیشه هستن، ولی نتیجه هم همینطور.",
+  "کارهای بزرگ از تصمیم‌های کوچیک شروع می‌شن.",
+  "ثبات، رمز موفقیت‌های بزرگه.",
+  "تلاش امروز، غرور فرداست.",
+  "بهترین نسخه‌ی خودت رو هر روز بساز.",
+  "هر روزی که تلاش کردی، یه روز موفق بوده.",
+  "آروم ولی پیوسته، سریع‌تر از تند و ناپیوسته‌ست."
+];
+function todayQuote(){
+  const now = new Date();
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
+  return DAILY_QUOTES[((dayOfYear % DAILY_QUOTES.length) + DAILY_QUOTES.length) % DAILY_QUOTES.length];
+}
+
+const checkSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const trashSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+const plusSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+const plusSvgSmall = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+const xSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+/* ---------------- confetti ---------------- */
+function fireConfetti(count){
+  const root = document.getElementById('confettiRoot');
+  if (!root) return;
+  const colors = ['#C9A227','#18A85A','#8B5CF6','#2E90FA','#E8A33D','#F7F3EC','#F2711C'];
+  for (let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const w = 6 + Math.random()*6;
+    const h = 10 + Math.random()*8;
+    el.style.left = (Math.random()*100) + 'vw';
+    el.style.width = w + 'px';
+    el.style.height = h + 'px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.opacity = (0.7 + Math.random()*0.3).toFixed(2);
+    el.style.animationDuration = (1.8 + Math.random()*1.6) + 's';
+    el.style.animationDelay = (Math.random()*0.3) + 's';
+    root.appendChild(el);
+    setTimeout(()=>el.remove(), 4200);
+  }
+}
+
+/* ---------------- ring (animated count-up) ---------------- */
+let displayedPct = 0;
+let ringRaf = null;
+function updateRing(target){
+  document.getElementById('ringFg').style.strokeDashoffset = RING_CIRCUMFERENCE - (target/100)*RING_CIRCUMFERENCE;
+  document.getElementById('ringWrap').classList.toggle('glow', target >= 90);
+  cancelAnimationFrame(ringRaf);
+  const start = displayedPct;
+  const startTime = performance.now();
+  const dur = 550;
+  function step(now){
+    const t = Math.min((now-startTime)/dur, 1);
+    const eased = 1 - Math.pow(1-t, 3);
+    const val = start + (target-start)*eased;
+    const pctEl = document.getElementById('ringPct');
+    if (t < 1){
+      pctEl.textContent = Math.round(val) + '%';
+      ringRaf = requestAnimationFrame(step);
+    } else {
+      displayedPct = target;
+      pctEl.textContent = Math.round(target) + '%' + (target >= 99.9 ? ' ✨' : '');
+    }
+  }
+  ringRaf = requestAnimationFrame(step);
+}
+
+/* ---------------- day strip: rainbow wave tanks ---------------- */
+function dayYOffset(pct){ return 72 - (pct/100)*86; }
+function dayTankSVG(i){
+  const color = RAINBOW_COLORS[i];
+  const cid = 'daytank_' + i;
+  return `
+    <svg viewBox="0 0 60 96">
+      <defs><clipPath id="${cid}"><rect x="2" y="2" width="56" height="92" rx="14"/></clipPath></defs>
+      <rect x="2" y="2" width="56" height="92" rx="14" fill="${color}22"></rect>
+      <g clip-path="url(#${cid})">
+        <g id="daywavegrp_${i}" class="wave-group" style="transform:translateY(72px)">
+          <path d="M-30,20 Q-15,8 0,20 T30,20 T60,20 T90,20 V140 H-30 Z" fill="${color}">
+            <animateTransform attributeName="transform" type="translate" values="0 0;-30 0" dur="2.6s" repeatCount="indefinite"/>
+          </path>
+        </g>
+      </g>
+      <rect x="2" y="2" width="56" height="92" rx="14" fill="none" stroke="rgba(0,0,0,.05)"></rect>
+    </svg>`;
+}
+function buildDayStrip(){
+  const dayStrip = document.getElementById('dayStrip');
+  dayStrip.innerHTML = '';
+  DAY_SHORT.forEach((d,i) => {
+    const col = document.createElement('div');
+    col.className = 'day-col';
+    col.innerHTML = `
+      <span class="d" style="color:${RAINBOW_COLORS[i]}">${d}</span>
+      ${dayTankSVG(i)}
+      <span class="pct" id="daypct_${i}">0%</span>`;
+    dayStrip.appendChild(col);
+  });
+}
+
+/* ---------------- monthly progress heatmap ---------------- */
+let heatmapViewDate = new Date();
+const PERSIAN_MONTHS_G = ["ژانویه","فوریه","مارس","آوریل","مه","ژوئن","ژوئیه","اوت","سپتامبر","اکتبر","نوامبر","دسامبر"];
+
+function weekdayIndex(dateObj){ return (dateObj.getDay() + 1) % 7; }
+
+function buildHeatmapDow(){
+  document.getElementById('heatmapDow').innerHTML =
+    DAY_SHORT.map((d,i) => `<span style="color:${RAINBOW_COLORS[i]}">${d}</span>`).join('');
+}
+
+function waveTankSVG(dateISO, pct, dayNum, isToday, color){
+  const cid = 'clip' + dateISO.replace(/-/g,'');
+  const known = pct !== undefined && pct !== null;
+  const track = known ? `${color}2A` : 'var(--muted-bg)';
+  const textFill = known ? '#20242B' : 'var(--ink-soft)';
+  const p = known ? Math.max(0, Math.min(100, pct)) : 0;
+  const yOffset = (20 - (p/100)*36).toFixed(1);
+  const waveBlock = known ? `
+    <g clip-path="url(#${cid})">
+      <g transform="translate(0,${yOffset})">
+        <path d="M-20,20 Q-10,12 0,20 T20,20 T40,20 T60,20 V60 H-20 Z" fill="${color}" opacity="0.92">
+          <animateTransform attributeName="transform" type="translate" values="0 0;-20 0" dur="2.6s" repeatCount="indefinite"/>
+        </path>
+      </g>
+    </g>` : '';
+  return `
+    <svg viewBox="0 0 40 40">
+      <defs><clipPath id="${cid}"><circle cx="20" cy="20" r="19"/></clipPath></defs>
+      <circle cx="20" cy="20" r="19" fill="${track}"></circle>
+      ${waveBlock}
+      ${isToday ? '<circle cx="20" cy="20" r="18" fill="none" stroke="#20242B" stroke-width="2"></circle>' : ''}
+      <text x="20" y="25" text-anchor="middle" font-size="13" font-weight="700" font-family="Tahoma, sans-serif"
+        fill="${textFill}" stroke="#F7F3EC" stroke-width="3" paint-order="stroke">${dayNum}</text>
+    </svg>`;
+}
+
+function buildHeatmap(){
+  const grid = document.getElementById('heatmapGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const y = heatmapViewDate.getFullYear();
+  const m = heatmapViewDate.getMonth();
+  document.getElementById('heatmapLabel').textContent = PERSIAN_MONTHS_G[m] + ' ' + y;
+
+  const first = new Date(y, m, 1);
+  const leading = weekdayIndex(first);
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const todayISO = isoDate(new Date());
+  const weekEndExclusive = addDaysISO(data.weekStartDate, 7);
+
+  for (let i=0;i<leading;i++){
+    const empty = document.createElement('div');
+    empty.className = 'hm-cell';
+    grid.appendChild(empty);
+  }
+  for (let d=1; d<=daysInMonth; d++){
+    const dateObj = new Date(y, m, d);
+    const dateISO = isoDate(dateObj);
+    const cell = document.createElement('div');
+    cell.className = 'hm-cell';
+    let pct = data.history[dateISO];
+    if (pct === undefined && dateISO >= data.weekStartDate && dateISO < weekEndExclusive){
+      const idx = Math.round((parseISO(dateISO) - parseISO(data.weekStartDate)) / 86400000);
+      pct = dayPercent(idx);
+    }
+    const color = RAINBOW_COLORS[weekdayIndex(dateObj)];
+    cell.innerHTML = waveTankSVG(dateISO, pct, d, dateISO === todayISO, color);
+    cell.title = dateISO + (pct !== undefined ? ` — ${Math.round(pct)}%` : '');
+    grid.appendChild(cell);
+  }
+}
+function shiftHeatmapMonth(delta){
+  heatmapViewDate = new Date(heatmapViewDate.getFullYear(), heatmapViewDate.getMonth()+delta, 1);
+  buildHeatmap();
+}
+
+/* ---------------- aggregates refresh ---------------- */
+let prevOverall = 0;
+let prevDayPercents = [0,0,0,0,0,0,0];
+
+function refreshAggregates(){
+  const op = overallPercent();
+  updateRing(op);
+  document.getElementById('motivLine').textContent = motivationLine(op);
+
+  for (let i=0;i<7;i++){
+    const p = dayPercent(i);
+    const grp = document.getElementById('daywavegrp_'+i);
+    if (grp) grp.style.transform = 'translateY(' + dayYOffset(p) + 'px)';
+    const pctEl = document.getElementById('daypct_'+i);
+    if (pctEl) pctEl.textContent = Math.round(p) + '%';
+    if (p >= 99.9 && prevDayPercents[i] < 99.9) fireConfetti(36);
+    prevDayPercents[i] = p;
+  }
+
+  let streak = 0;
+  for (let i=0;i<7;i++){ if (dayPercent(i) >= 99.9) streak++; else break; }
+  const streakEl = document.getElementById('streakLine');
+  if (streak > 0){ streakEl.style.display = 'flex'; document.getElementById('streakNum').textContent = streak; }
+  else streakEl.style.display = 'none';
+
+  data.categories.forEach(c => {
+    const pct = catPercent(c);
+    const counts = catCounts(c);
+    const el = document.getElementById('catpct_'+c.id);
+    if (el) el.textContent = Math.round(pct) + '%';
+    const cc = document.getElementById('catcount_'+c.id);
+    if (cc) cc.textContent = counts.done + '/' + counts.total;
+    const ring = document.getElementById('catring_'+c.id);
+    if (ring){
+      ring.style.strokeDashoffset = CAT_RING_CIRC - (pct/100)*CAT_RING_CIRC;
+      ring.style.filter = pct >= 99.9 ? `drop-shadow(0 0 4px ${c.color})` : 'none';
+    }
+    const tpct = document.getElementById('tilepct_'+c.id);
+    if (tpct) tpct.textContent = Math.round(pct) + '%';
+    const tcount = document.getElementById('tilecount_'+c.id);
+    if (tcount) tcount.textContent = counts.done + '/' + counts.total;
+    const tring = document.getElementById('tilering_'+c.id);
+    if (tring) tring.style.strokeDashoffset = TILE_RING_CIRC - (pct/100)*TILE_RING_CIRC;
+  });
+
+  if (op >= 99.9 && prevOverall < 99.9) fireConfetti(130);
+  prevOverall = op;
+
+  buildHeatmap();
+  buildAchievements();
+}
+
+/* ---------------- categories: detail table markup ---------------- */
+let addingTo = null;
+
+function categoryCardInner(c){
+  let rows = '';
+  c.habits.forEach(h => {
+    let nameCell = `<td class="name-col">${escapeHtml(h.name)}`;
+    if (h.type === 'counter') {
+      nameCell += `<div class="target-row">
+        <span>هدف:</span>
+        <input type="number" value="${h.target}" onchange="setTarget('${c.id}','${h.id}',this.value)">
+        <select onchange="setUnit('${c.id}','${h.id}',this.value)">
+          ${['دقیقه','قدم','پست','صفحه'].map(u => `<option value="${u}" ${u===h.unit?'selected':''}>${u}</option>`).join('')}
+        </select>
+      </div>`;
+    }
+    nameCell += `</td>`;
+
+    let dayCells = '';
+    if (h.type === 'boolean') {
+      h.days.forEach((checked,i) => {
+        dayCells += `<td><button id="chk_${c.id}_${h.id}_${i}" class="chk ${checked?'on':''}" onclick="toggleBoolean('${c.id}','${h.id}',${i})">${checkSvg}</button></td>`;
+      });
+    } else {
+      h.days.forEach((v,i) => {
+        const on = fraction(h,i) >= 1;
+        dayCells += `<td><input id="num_${c.id}_${h.id}_${i}" class="num-input ${on?'on':''}" type="number" value="${v||''}" placeholder="0" onchange="setCounter('${c.id}','${h.id}',${i},this.value)"></td>`;
+      });
+    }
+
+    rows += `<tr>${nameCell}${dayCells}<td><button class="del-btn" onclick="removeHabit('${c.id}','${h.id}')">${trashSvg}</button></td></tr>`;
+  });
+
+  const counts = catCounts(c);
+  return `
+    <div class="cat-head">
+      <div class="cat-title"><span class="dot" style="background:${c.color}"></span>${escapeHtml(c.name)}</div>
+      <div class="cat-ring-wrap" id="catringwrap_${c.id}">
+        <svg width="44" height="44">
+          <circle cx="22" cy="22" r="${CAT_RING_R}" stroke="#EFEAE0" stroke-width="5" fill="none"></circle>
+          <circle id="catring_${c.id}" cx="22" cy="22" r="${CAT_RING_R}" fill="none" stroke-width="5"
+            style="stroke:${c.color}; stroke-dasharray:${CAT_RING_CIRC}; stroke-dashoffset:${CAT_RING_CIRC - (catPercent(c)/100)*CAT_RING_CIRC}; stroke-linecap:round; transition: stroke-dashoffset .6s cubic-bezier(.22,.9,.34,1), filter .3s;"></circle>
+        </svg>
+        <div class="cat-ring-pct" id="catpct_${c.id}" style="color:${c.color}">${Math.round(catPercent(c))}%</div>
+      </div>
+    </div>
+    <div class="cat-count" id="catcount_${c.id}">${counts.done}/${counts.total} انجام شده</div>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th class="name-col">مورد</th>${DAY_SHORT.map(d=>`<th>${d}</th>`).join('')}<th></th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div id="addRow-${c.id}"></div>
+  `;
+}
+
+function buildCategoryTiles(){
+  const home = document.getElementById('categoriesHome');
+  home.innerHTML = '';
+  data.categories.forEach((c, idx) => {
+    const pct = catPercent(c);
+    const counts = catCounts(c);
+    const tile = document.createElement('button');
+    tile.className = 'tile enter';
+    tile.style.animationDelay = (0.15 + idx*0.06) + 's';
+    tile.onclick = () => openCategoryDetail(c.id);
+    tile.innerHTML = `
+      <div class="tile-icon">${c.emoji || '📌'}</div>
+      <div class="tile-name">${escapeHtml(c.name)}</div>
+      <div class="tile-ring-wrap">
+        <svg width="36" height="36">
+          <circle cx="18" cy="18" r="${TILE_RING_R}" stroke="#EFEAE0" stroke-width="4" fill="none"></circle>
+          <circle id="tilering_${c.id}" cx="18" cy="18" r="${TILE_RING_R}" stroke="${c.color}" stroke-width="4" fill="none"
+            stroke-dasharray="${TILE_RING_CIRC}" stroke-dashoffset="${TILE_RING_CIRC - (pct/100)*TILE_RING_CIRC}"
+            stroke-linecap="round" style="transition: stroke-dashoffset .5s cubic-bezier(.22,.9,.34,1);"></circle>
+        </svg>
+        <div class="tile-ring-pct" id="tilepct_${c.id}" style="color:${c.color}">${Math.round(pct)}%</div>
+      </div>
+      <div class="tile-count" id="tilecount_${c.id}">${counts.done}/${counts.total}</div>`;
+    home.appendChild(tile);
+  });
+
+  const addTile = document.createElement('button');
+  addTile.className = 'tile enter add-cat-tile';
+  addTile.style.animationDelay = (0.15 + data.categories.length*0.06) + 's';
+  addTile.onclick = openAddCategoryForm;
+  addTile.innerHTML = `<div class="tile-icon">＋</div><div class="tile-name">افزودن بخش جدید</div>`;
+  home.appendChild(addTile);
+}
+
+let currentDetailCat = null;
+function openCategoryDetail(catId){
+  currentDetailCat = catId;
+  const c = data.categories.find(x=>x.id===catId);
+  document.getElementById('categoryDetailContent').innerHTML = categoryCardInner(c);
+  const detailEl = document.getElementById('categoryDetail');
+  detailEl.style.setProperty('--cat-color', c.color);
+  detailEl.style.display = 'block';
+  document.getElementById('editCategoryForm').style.display = 'none';
+  editingCategoryOpen = false;
+  document.getElementById('categoriesHome').style.display = 'none';
+  renderAddRow(catId);
+}
+function closeCategoryDetail(){
+  currentDetailCat = null;
+  document.getElementById('categoryDetail').style.display = 'none';
+  document.getElementById('categoriesHome').style.display = 'grid';
+}
+function rebuildCategory(catId){
+  if (currentDetailCat !== catId) return;
+  const c = data.categories.find(x=>x.id===catId);
+  document.getElementById('categoryDetailContent').innerHTML = categoryCardInner(c);
+  renderAddRow(catId);
+}
+
+/* ---------------- add / edit / delete whole categories ---------------- */
+let pendingEmoji = null;
+function emojiGridHTML(){
+  return EMOJI_PALETTE.map(e => `<button type="button" class="emoji-opt ${e===pendingEmoji?'selected':''}" onclick="pickEmoji('${e}')">${e}</button>`).join('');
+}
+function pickEmoji(e){
+  pendingEmoji = e;
+  document.querySelectorAll('.emoji-opt').forEach(btn => btn.classList.toggle('selected', btn.textContent === e));
+}
+function pickUnusedColor(){
+  const used = data.categories.map(c=>c.color);
+  const found = EXTRA_COLORS.find(c => !used.includes(c));
+  return found || EXTRA_COLORS[data.categories.length % EXTRA_COLORS.length];
+}
+function openAddCategoryForm(){
+  pendingEmoji = EMOJI_PALETTE[0];
+  document.getElementById('newCatName').value = '';
+  document.getElementById('addCatEmojiGrid').innerHTML = emojiGridHTML();
+  document.getElementById('categoriesHome').style.display = 'none';
+  document.getElementById('addCategoryForm').style.display = 'block';
+  setTimeout(()=>{ const inp=document.getElementById('newCatName'); if(inp) inp.focus(); },0);
+}
+function closeAddCategoryForm(){
+  document.getElementById('addCategoryForm').style.display = 'none';
+  document.getElementById('categoriesHome').style.display = 'grid';
+}
+function confirmAddCategory(){
+  const name = document.getElementById('newCatName').value.trim();
+  if (!name) return;
+  data.categories.push({ id: uid(), name, color: pickUnusedColor(), emoji: pendingEmoji || EMOJI_PALETTE[0], habits: [] });
+  saveData();
+  buildCategoryTiles();
+  refreshAggregates();
+  closeAddCategoryForm();
+}
+
+let editingCategoryOpen = false;
+function toggleEditCategoryForm(){
+  editingCategoryOpen = !editingCategoryOpen;
+  const panel = document.getElementById('editCategoryForm');
+  if (editingCategoryOpen){
+    const c = data.categories.find(x=>x.id===currentDetailCat);
+    document.getElementById('editCatName').value = c.name;
+    pendingEmoji = c.emoji;
+    document.getElementById('editCatEmojiGrid').innerHTML = emojiGridHTML();
+    panel.style.display = 'block';
+  } else {
+    panel.style.display = 'none';
+  }
+}
+function confirmEditCategory(){
+  const c = data.categories.find(x=>x.id===currentDetailCat);
+  const name = document.getElementById('editCatName').value.trim();
+  if (name) c.name = name;
+  if (pendingEmoji) c.emoji = pendingEmoji;
+  saveData();
+  editingCategoryOpen = false;
+  document.getElementById('editCategoryForm').style.display = 'none';
+  document.getElementById('categoryDetailContent').innerHTML = categoryCardInner(c);
+  renderAddRow(currentDetailCat);
+  buildCategoryTiles();
+  refreshAggregates();
+}
+function deleteCurrentCategory(){
+  if (!confirm('این بخش و همه‌ی موردهای داخلش پاک می‌شه. مطمئنی؟')) return;
+  data.categories = data.categories.filter(x=>x.id!==currentDetailCat);
+  saveData();
+  closeCategoryDetail();
+  buildCategoryTiles();
+  refreshAggregates();
+}
+
+/* ---------------- add item within a category ---------------- */
+let newHabitType = 'boolean';
+
+function renderAddRow(catId){
+  const el = document.getElementById('addRow-'+catId);
+  if (!el) return;
+  const c = data.categories.find(x=>x.id===catId);
+  if (addingTo === catId) {
+    el.innerHTML = `
+      <div class="add-form">
+        <input type="text" id="newHabitInput" placeholder="نام مورد جدید...">
+        <div class="add-type-toggle">
+          <button type="button" id="typeBtnBoolean" class="add-type-btn selected" onclick="setNewHabitType('boolean')">تیک ساده</button>
+          <button type="button" id="typeBtnCounter" class="add-type-btn" onclick="setNewHabitType('counter')">عدد/تعداد</button>
+        </div>
+        <div id="newHabitCounterOpts" class="counter-opts" style="display:none;">
+          <span>هدف:</span>
+          <input type="number" id="newHabitTarget" value="1" min="1">
+          <select id="newHabitUnit">
+            <option value="پست">پست</option>
+            <option value="دقیقه">دقیقه</option>
+            <option value="قدم">قدم</option>
+            <option value="صفحه">صفحه</option>
+            <option value="بار">بار</option>
+          </select>
+        </div>
+        <div class="add-row">
+          <button class="icon-btn" style="background:${c.color}" onclick="confirmAddHabit('${catId}')">${plusSvg}</button>
+          <button class="icon-btn" style="background:#EFEAE0" onclick="cancelAddHabit()">${xSvg}</button>
+        </div>
+      </div>`;
+    setTimeout(()=>{ const inp=document.getElementById('newHabitInput'); if(inp) inp.focus(); }, 0);
+  } else {
+    el.innerHTML = `<button class="add-link" style="color:${c.color}" onclick="startAddHabit('${catId}')">${plusSvgSmall} افزودن مورد به ${escapeHtml(c.name)}</button>`;
+  }
+}
+function setNewHabitType(type){
+  newHabitType = type;
+  const bBtn = document.getElementById('typeBtnBoolean');
+  const cBtn = document.getElementById('typeBtnCounter');
+  const opts = document.getElementById('newHabitCounterOpts');
+  if (bBtn) bBtn.classList.toggle('selected', type==='boolean');
+  if (cBtn) cBtn.classList.toggle('selected', type==='counter');
+  if (opts) opts.style.display = (type==='counter') ? 'flex' : 'none';
+}
+function startAddHabit(catId){ addingTo = catId; newHabitType = 'boolean'; renderAddRow(catId); }
+function cancelAddHabit(){ const prev = addingTo; addingTo = null; if (prev) renderAddRow(prev); }
+function confirmAddHabit(catId){
+  const input = document.getElementById('newHabitInput');
+  const name = input.value.trim();
+  if (!name) return;
+  const c = data.categories.find(x=>x.id===catId);
+  if (newHabitType === 'counter'){
+    const target = Number(document.getElementById('newHabitTarget').value) || 1;
+    const unit = document.getElementById('newHabitUnit').value;
+    c.habits.push({ id:uid(), name, type:'counter', unit, target, days:zeros() });
+  } else {
+    c.habits.push({ id:uid(), name, type:'boolean', days:falses() });
+  }
+  addingTo = null;
+  saveData();
+  rebuildCategory(catId);
+  refreshAggregates();
+}
+
+/* ---------------- interactions ---------------- */
+function toggleBoolean(catId, habitId, i){
+  const c = data.categories.find(x=>x.id===catId);
+  const h = c.habits.find(x=>x.id===habitId);
+  h.days[i] = !h.days[i];
+  saveData();
+  const btn = document.getElementById(`chk_${catId}_${habitId}_${i}`);
+  if (btn){
+    btn.classList.toggle('on', h.days[i]);
+    if (h.days[i]){ btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop'); }
+  }
+  refreshAggregates();
+}
+function setCounter(catId, habitId, i, val){
+  const c = data.categories.find(x=>x.id===catId);
+  const h = c.habits.find(x=>x.id===habitId);
+  h.days[i] = val === '' ? 0 : Math.max(0, Number(val));
+  saveData();
+  const input = document.getElementById(`num_${catId}_${habitId}_${i}`);
+  if (input){
+    const on = fraction(h,i) >= 1;
+    input.classList.toggle('on', on);
+    if (on){ input.classList.remove('pop'); void input.offsetWidth; input.classList.add('pop'); }
+  }
+  refreshAggregates();
+}
+function setTarget(catId, habitId, val){
+  const c = data.categories.find(x=>x.id===catId);
+  const h = c.habits.find(x=>x.id===habitId);
+  h.target = Number(val) || 1;
+  saveData();
+  rebuildCategory(catId);
+  refreshAggregates();
+}
+function setUnit(catId, habitId, val){
+  const c = data.categories.find(x=>x.id===catId);
+  const h = c.habits.find(x=>x.id===habitId);
+  h.unit = val;
+  saveData();
+  rebuildCategory(catId);
+  refreshAggregates();
+}
+function removeHabit(catId, habitId){
+  const c = data.categories.find(x=>x.id===catId);
+  c.habits = c.habits.filter(x=>x.id!==habitId);
+  saveData();
+  rebuildCategory(catId);
+  refreshAggregates();
+}
+
+/* ---------------- notes ---------------- */
+function renderNotes(){
+  const notesList = document.getElementById('notesList');
+  notesList.innerHTML = '';
+  data.notes.forEach(n => {
+    notesList.innerHTML += `<div class="note-item enter">
+      <span>${escapeHtml(n.text)}</span>
+      <button class="del-btn" onclick="removeNote('${n.id}')">${trashSvg}</button>
+    </div>`;
+  });
+}
+function addNote(){
+  const input = document.getElementById('noteInput');
+  const text = input.value.trim();
+  if (!text) return;
+  data.notes.push({ id:uid(), text });
+  input.value = '';
+  saveData();
+  renderNotes();
+}
+function removeNote(id){
+  data.notes = data.notes.filter(n=>n.id!==id);
+  saveData();
+  renderNotes();
+}
+
+/* ---------------- rating ---------------- */
+function buildRatingGrid(){
+  const grid = document.getElementById('ratingGrid');
+  grid.innerHTML = '';
+  for (let n=1;n<=10;n++){
+    const btn = document.createElement('button');
+    btn.className = 'rating-btn' + (data.rating===n ? ' selected' : '');
+    btn.id = 'rate_'+n;
+    btn.textContent = n;
+    btn.onclick = () => setRating(n);
+    grid.appendChild(btn);
+  }
+  document.getElementById('ratingMsg').textContent = ratingMessage(data.rating);
+}
+function setRating(n){
+  data.rating = n;
+  saveData();
+  for (let i=1;i<=10;i++){
+    const b = document.getElementById('rate_'+i);
+    if (b) b.classList.toggle('selected', i===n);
+  }
+  const sel = document.getElementById('rate_'+n);
+  if (sel){ sel.classList.remove('pop'); void sel.offsetWidth; sel.classList.add('pop'); }
+  document.getElementById('ratingMsg').textContent = ratingMessage(n);
+  if (n >= 8) fireConfetti(70);
+}
+
+/* ---------------- reset ---------------- */
+function resetWeek(){
+  if (!confirm('مطمئنی می‌خوای تیک‌ها و نمره‌ی این هفته پاک بشه؟')) return;
+  archiveCurrentWeek();
+  startFreshWeek();
+  saveData();
+  prevOverall = 0;
+  prevDayPercents = [0,0,0,0,0,0,0];
+  buildCategoryTiles();
+  if (currentDetailCat){
+    const c = data.categories.find(x=>x.id===currentDetailCat);
+    document.getElementById('categoryDetailContent').innerHTML = categoryCardInner(c);
+    renderAddRow(currentDetailCat);
+  }
+  buildRatingGrid();
+  refreshAggregates();
+}
+
+/* ---------------- init ---------------- */
+function init(){
+  checkWeekRollover();
+  document.getElementById('focusInput').value = data.focus;
+  document.getElementById('dailyQuote').textContent = todayQuote();
+  buildDayStrip();
+  buildHeatmapDow();
+  heatmapViewDate = new Date();
+  buildCategoryTiles();
+  renderNotes();
+  buildRatingGrid();
+  prevOverall = overallPercent();
+  for (let i=0;i<7;i++) prevDayPercents[i] = dayPercent(i);
+  displayedPct = 0;
+  refreshAggregates();
+}
+
+document.getElementById('focusInput').addEventListener('input', e => {
+  data.focus = e.target.value;
+  saveData();
+});
+document.getElementById('noteInput').addEventListener('keydown', e => { if (e.key==='Enter') addNote(); });
+
+init();
+</script>
+</body>
+</html>
