@@ -142,6 +142,11 @@ header{position:sticky;top:0;z-index:100;background:rgba(248,246,242,0.97);backd
 .btn-buy{background:linear-gradient(135deg,var(--gold),#a88040);color:#fff;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;font-family:'Vazirmatn',sans-serif;cursor:pointer}
 .btn-cart{background:var(--bg);border:1px solid var(--border2);color:var(--cream);border-radius:14px;padding:14px;font-size:14px;font-weight:600;font-family:'Vazirmatn',sans-serif;cursor:pointer}
 .modal-link{display:block;text-align:center;margin-top:12px;font-size:11px;color:var(--gold-dim);text-decoration:none}
+.modal-features{margin-bottom:16px}
+.modal-features-title{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:10px}
+.feature-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:12px;color:var(--cream);line-height:1.6}
+.feature-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.btn-telegram{width:100%;margin-top:10px;padding:13px;border-radius:12px;border:none;background:#229ED9;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:'Vazirmatn',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px}
 
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border2);color:var(--cream);font-size:12px;font-weight:600;font-family:'Vazirmatn',sans-serif;padding:10px 20px;border-radius:20px;z-index:999;opacity:0;transition:all 0.3s;white-space:nowrap;display:flex;align-items:center;gap:6px;box-shadow:0 4px 20px rgba(0,0,0,0.1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -256,12 +261,13 @@ header{position:sticky;top:0;z-index:100;background:rgba(248,246,242,0.97);backd
 <div class="overlay" id="overlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-gallery"><img id="modalImg" src="" onerror="this.style.display='none'" alt=""></div>
+    <div class="modal-gallery"><img id="modalImg" src="" alt="" style="width:100%;height:100%;object-fit:cover"></div>
     <div class="modal-body">
       <div class="modal-cat" id="modalCat"></div>
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-desc" id="modalDesc"></div>
       <div class="specs-grid" id="modalSpecs"></div>
+      <div class="modal-features" id="modalFeatures"></div>
       <div class="modal-price-row">
         <div><div class="modal-price-num" id="modalPrice"></div><div class="modal-price-unit" id="modalUnit"></div></div>
         <div class="qty-ctrl">
@@ -274,6 +280,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(248,246,242,0.97);backd
         <button class="btn-buy" onclick="buyNow()">خرید از سایت 🌐</button>
         <button class="btn-cart" onclick="addToCart()">افزودن به سبد 🛒</button>
       </div>
+      <button class="btn-telegram" onclick="orderTelegram()">📩 ثبت سفارش در تلگرام</button>
       <a class="modal-link" id="modalLink" href="#" target="_blank">مشاهده در سایت وستا دکور ↗</a>
     </div>
   </div>
@@ -809,6 +816,17 @@ function renderGrid(gridId, list, pageId) {
 }
 
 // ─── modal ──────────────────────────────────────────────────
+const FEATURES_MAP = {
+  'foam': ['✅ نصب آسان با پشت چسبدار — بدون نیاز به ابزار', '🔇 عایق صدا و حرارت', '💧 مقاوم در برابر رطوبت و خراش'],
+  'roli': ['✅ مناسب فضاهای بزرگ — بدون درز', '🔇 عایق صدا و حرارت', '🎨 طرح‌های متنوع و مدرن'],
+  'marble': ['✨ ظاهر لوکس سنگ مرمر واقعی', '💧 ضدآب و قابل شستشو', '⚡ نصب سریع و بدون نیاز به ملات'],
+  'thermowall': ['🏠 مناسب دیوار و سقف', '🔇 عایق صدا و حرارت عالی', '✂️ قابل برش و نصب آسان'],
+  'floor': ['💪 مقاوم در برابر سایش و فشار', '💧 ضدآب و قابل شستشو', '⚡ نصب شناور بدون چسب'],
+  'lamse': ['✅ نصب آسان با پشت چسبدار', '🎨 طرح سه‌بعدی جذاب', '🔧 قابل نصب روی هر سطحی'],
+  'abzar': ['🖼 تکمیل‌کننده قاب‌بندی دیوار', '💎 جنس با کیفیت PVC', '🎨 رنگ‌های متنوع'],
+  'qarniz': ['📐 پوشش مرز دیوار و کف', '💧 ضدآب و بادوام', '🎨 طرح‌های متنوع برای هر دکوری'],
+};
+
 function openModal(key) {
   const [pageId, idx] = key.split('_');
   const p = (window._currentList[pageId] || [])[parseInt(idx)];
@@ -826,8 +844,18 @@ function openModal(key) {
   document.getElementById('modalSpecs').innerHTML = p.specs.map(s =>
     `<div class="spec-item"><div class="spec-label">${s.l}</div><div class="spec-val">${s.v}</div></div>`
   ).join('');
+  const feats = FEATURES_MAP[currentCatKey] || FEATURES_MAP['foam'];
+  document.getElementById('modalFeatures').innerHTML =
+    '<div class="modal-features-title">ویژگی‌ها و مزایا</div>' +
+    feats.map(f => `<div class="feature-item"><span class="feature-icon">${f.split(' ')[0]}</span><span>${f.substring(f.indexOf(' ')+1)}</span></div>`).join('');
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function orderTelegram() {
+  if (!currentProduct) return;
+  const msg = encodeURIComponent(`سلام، میخوام سفارش بدم:\n\n🛍 محصول: ${currentProduct.name}\n💰 قیمت: ${currentProduct.price} تومان\n📐 ابعاد: ${currentProduct.specs[0].v}\n\nلطفاً راهنمایی کنید.`);
+  window.open('https://t.me/Diivarpoosh?text=' + msg, '_blank');
 }
 
 function closeModal(e) {
