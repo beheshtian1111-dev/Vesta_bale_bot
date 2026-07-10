@@ -228,6 +228,23 @@
 
   .reset-btn { width: 100%; padding: 14px; border-radius: 16px; border: none; cursor: pointer; background: var(--muted-bg); color: var(--ink); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; transition: transform .12s ease, background .15s; }
   .reset-btn:active { transform: scale(.97); background: #e6e0d2; }
+
+  .danger-card { border: 1.5px solid #F3D0CE; }
+  .danger-card h2 { margin-bottom: 6px; }
+  .danger-btn {
+    width: 100%; padding: 12px; border-radius: 14px; border: 1.5px solid #E8A5A0; background: #FDF1F0;
+    color: #B3261E; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: transform .12s ease, background .15s;
+  }
+  .danger-btn:active { transform: scale(.97); background: #FBE4E2; }
+  .danger-confirm-text { font-size: 12.5px; font-weight: 700; color: #B3261E; margin: 4px 0 10px; }
+  .reset-yes-btn, .reset-no-btn {
+    flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: transform .12s ease;
+  }
+  .reset-yes-btn { background: #B3261E; color: #fff; }
+  .reset-no-btn { background: var(--muted-bg); color: var(--ink); }
+  .reset-yes-btn:active, .reset-no-btn:active { transform: scale(.95); }
 </style>
 </head>
 <body>
@@ -394,6 +411,21 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
     شروع هفته جدید (پاک کردن تیک‌ها و نمره)
   </button>
+
+  <div class="card enter danger-card" style="animation-delay:.66s">
+    <h2 style="color:#B3261E;">⚠️ ریست کامل اپلیکیشن</h2>
+    <p class="sub">همه‌ی تاریخچه، تقویم، دستاوردها، سوابق هفته‌ها، بخش‌ها و یادداشت‌ها برای همیشه پاک می‌شن. این کار غیرقابل‌برگشته.</p>
+
+    <button class="danger-btn" id="fullResetTrigger" onclick="showFullResetConfirm()">پاک کردن همه‌چیز</button>
+
+    <div id="fullResetConfirm" style="display:none;">
+      <p class="danger-confirm-text">مطمئنی؟ کل سوابق ثبت‌شده حذف بشه؟</p>
+      <div class="add-row" style="margin-top:0;">
+        <button class="reset-yes-btn" onclick="fullResetApp()">بله</button>
+        <button class="reset-no-btn" onclick="hideFullResetConfirm()">خیر</button>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -609,8 +641,8 @@ function weekLogRowHTML(w){
   const endJ = jalaliParts(parseISO(addDaysISO(w.weekStart, 6)));
   const sameMonth = startJ.jm === endJ.jm;
   const dateLabel = sameMonth
-    ? `${toPersianDigits(startJ.jd)} تا ${toPersianDigits(endJ.jd)} ${JALALI_MONTHS[endJ.jm-1]}`
-    : `${toPersianDigits(startJ.jd)} ${JALALI_MONTHS[startJ.jm-1]} تا ${toPersianDigits(endJ.jd)} ${JALALI_MONTHS[endJ.jm-1]}`;
+    ? `${startJ.jd} تا ${endJ.jd} ${JALALI_MONTHS[endJ.jm-1]}`
+    : `${startJ.jd} ${JALALI_MONTHS[startJ.jm-1]} تا ${endJ.jd} ${JALALI_MONTHS[endJ.jm-1]}`;
   const pct = Math.round(w.avgPercent);
   const pctColor = pct>=90 ? '#18A85A' : pct>=60 ? '#C9A227' : '#D64545';
   return `<div class="weeklog-row">
@@ -824,7 +856,7 @@ function buildHeatmap(){
   if (!grid) return;
   grid.innerHTML = '';
   const { jy, jm } = jalaliParts(heatmapViewDate);
-  document.getElementById('heatmapLabel').textContent = JALALI_MONTHS[jm-1] + ' ' + toPersianDigits(jy);
+  document.getElementById('heatmapLabel').textContent = JALALI_MONTHS[jm-1] + ' ' + jy;
 
   const leading = weekdayIndex(heatmapViewDate);
   const daysInMonth = jalaliMonthLength(heatmapViewDate);
@@ -848,7 +880,7 @@ function buildHeatmap(){
       pct = dayPercent(idx);
     }
     const color = RAINBOW_COLORS[weekdayIndex(dateObj)];
-    cell.innerHTML = waveTankSVG(dateISO, pct, toPersianDigits(d), dateISO === todayISO, color);
+    cell.innerHTML = waveTankSVG(dateISO, pct, d, dateISO === todayISO, color);
     cell.title = dateISO + (pct !== undefined ? ` — ${Math.round(pct)}%` : '');
     grid.appendChild(cell);
   }
@@ -1293,6 +1325,19 @@ function resetWeek(){
   buildRatingGrid();
   buildWeekLog();
   refreshAggregates();
+}
+
+function showFullResetConfirm(){
+  document.getElementById('fullResetConfirm').style.display = 'block';
+  document.getElementById('fullResetTrigger').style.display = 'none';
+}
+function hideFullResetConfirm(){
+  document.getElementById('fullResetConfirm').style.display = 'none';
+  document.getElementById('fullResetTrigger').style.display = 'block';
+}
+function fullResetApp(){
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) { console.error(e); }
+  location.reload();
 }
 
 /* ---------------- init ---------------- */
