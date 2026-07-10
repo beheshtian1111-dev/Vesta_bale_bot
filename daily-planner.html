@@ -138,6 +138,13 @@
   .ach-name { font-size: 10.5px; font-weight: 700; line-height: 1.3; }
   .ach-desc { font-size: 9px; color: var(--ink-soft); margin-top: 2px; line-height: 1.3; }
 
+  .weeklog-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 2px; border-bottom: 1px solid var(--muted-bg); }
+  .weeklog-row:last-child { border-bottom: none; }
+  .weeklog-date { font-size: 12.5px; font-weight: 600; }
+  .weeklog-stats { display: flex; align-items: center; gap: 10px; }
+  .weeklog-pct { font-size: 13px; font-weight: 800; }
+  .weeklog-rating { font-size: 11px; color: var(--ink-soft); }
+
   .cat-card { border-right: 4px solid var(--cat-color, var(--gold)); }
 
   .tiles-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 16px; }
@@ -299,6 +306,12 @@
     <h2>دستاوردها</h2>
     <p class="sub">با ادامه دادن، این نشان‌ها رو باز کن.</p>
     <div class="ach-grid" id="achievementsGrid"></div>
+  </div>
+
+  <div class="card enter" style="animation-delay:.2s">
+    <h2>سوابق هفته‌ها</h2>
+    <p class="sub">هفته‌هایی که تموم کردی، اینجا ذخیره می‌مونن.</p>
+    <div id="weekLogList"></div>
   </div>
 
   <div id="categoriesHome" class="tiles-grid"></div>
@@ -591,6 +604,33 @@ function buildAchievements(){
   if (newlyUnlocked){ saveData(); fireConfetti(90); }
 }
 
+function weekLogRowHTML(w){
+  const startJ = jalaliParts(parseISO(w.weekStart));
+  const endJ = jalaliParts(parseISO(addDaysISO(w.weekStart, 6)));
+  const sameMonth = startJ.jm === endJ.jm;
+  const dateLabel = sameMonth
+    ? `${toPersianDigits(startJ.jd)} تا ${toPersianDigits(endJ.jd)} ${JALALI_MONTHS[endJ.jm-1]}`
+    : `${toPersianDigits(startJ.jd)} ${JALALI_MONTHS[startJ.jm-1]} تا ${toPersianDigits(endJ.jd)} ${JALALI_MONTHS[endJ.jm-1]}`;
+  const pct = Math.round(w.avgPercent);
+  const pctColor = pct>=90 ? '#18A85A' : pct>=60 ? '#C9A227' : '#D64545';
+  return `<div class="weeklog-row">
+    <div class="weeklog-date">${dateLabel}</div>
+    <div class="weeklog-stats">
+      ${w.rating!=null ? `<span class="weeklog-rating">⭐ ${w.rating}</span>` : ''}
+      <span class="weeklog-pct" style="color:${pctColor}">${pct}%</span>
+    </div>
+  </div>`;
+}
+function buildWeekLog(){
+  const el = document.getElementById('weekLogList');
+  if (!el) return;
+  if (!data.weekLog.length){
+    el.innerHTML = '<p class="sub" style="margin:0">هنوز هیچ هفته‌ای تموم نشده. بعد از اولین هفته، سابقه‌ش اینجا میاد.</p>';
+    return;
+  }
+  el.innerHTML = data.weekLog.slice().reverse().map(weekLogRowHTML).join('');
+}
+
 const DAILY_QUOTES = [
   "امروز رو با یه قدم کوچیک شروع کن، نه با بهانه‌ی بزرگ.",
   "پیوستگی از انگیزه‌ی لحظه‌ای قوی‌تره.",
@@ -716,9 +756,35 @@ function buildDayStrip(){
   });
 }
 
-/* ---------------- monthly progress heatmap ---------------- */
-let heatmapViewDate = new Date();
-const PERSIAN_MONTHS_G = ["ژانویه","فوریه","مارس","آوریل","مه","ژوئن","ژوئیه","اوت","سپتامبر","اکتبر","نوامبر","دسامبر"];
+/* ---------------- monthly progress heatmap (Jalali / Shamsi calendar) ---------------- */
+const JALALI_MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+const JALALI_FMT = new Intl.DateTimeFormat('en-US-u-ca-persian-nu-latn', { year:'numeric', month:'numeric', day:'numeric' });
+function jalaliParts(dateObj){
+  const parts = JALALI_FMT.formatToParts(dateObj);
+  const get = t => +parts.find(p=>p.type===t).value;
+  return { jy: get('year'), jm: get('month'), jd: get('day') };
+}
+function toPersianDigits(n){
+  const map = {'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};
+  return String(n).replace(/[0-9]/g, ch => map[ch]);
+}
+// find the Gregorian Date corresponding to day 1 of the Jalali month containing dateObj
+function jalaliMonthStart(dateObj){
+  let d = new Date(dateObj);
+  let guard = 0;
+  while (jalaliParts(d).jd !== 1 && guard < 35){ d.setDate(d.getDate() - 1); guard++; }
+  return d;
+}
+// number of days in the Jalali month that starts at monthStartDate (jd === 1)
+function jalaliMonthLength(monthStartDate){
+  let d = new Date(monthStartDate);
+  const startJm = jalaliParts(d).jm;
+  let count = 0, guard = 0;
+  while (jalaliParts(d).jm === startJm && guard < 35){ count++; d.setDate(d.getDate() + 1); guard++; }
+  return count;
+}
+
+let heatmapViewDate = jalaliMonthStart(new Date());
 
 function weekdayIndex(dateObj){ return (dateObj.getDay() + 1) % 7; }
 
@@ -727,7 +793,7 @@ function buildHeatmapDow(){
     DAY_SHORT.map((d,i) => `<span style="color:${RAINBOW_COLORS[i]}">${d}</span>`).join('');
 }
 
-function waveTankSVG(dateISO, pct, dayNum, isToday, color){
+function waveTankSVG(dateISO, pct, dayLabel, isToday, color){
   const cid = 'clip' + dateISO.replace(/-/g,'');
   const known = pct !== undefined && pct !== null;
   const track = known ? `${color}2A` : 'var(--muted-bg)';
@@ -748,8 +814,8 @@ function waveTankSVG(dateISO, pct, dayNum, isToday, color){
       <circle cx="20" cy="20" r="19" fill="${track}"></circle>
       ${waveBlock}
       ${isToday ? '<circle cx="20" cy="20" r="18" fill="none" stroke="#20242B" stroke-width="2"></circle>' : ''}
-      <text x="20" y="25" text-anchor="middle" font-size="13" font-weight="700" font-family="Tahoma, sans-serif"
-        fill="${textFill}" stroke="#F7F3EC" stroke-width="3" paint-order="stroke">${dayNum}</text>
+      <text x="20" y="25" text-anchor="middle" font-size="12" font-weight="700" font-family="Tahoma, sans-serif"
+        fill="${textFill}" stroke="#F7F3EC" stroke-width="3" paint-order="stroke">${dayLabel}</text>
     </svg>`;
 }
 
@@ -757,13 +823,11 @@ function buildHeatmap(){
   const grid = document.getElementById('heatmapGrid');
   if (!grid) return;
   grid.innerHTML = '';
-  const y = heatmapViewDate.getFullYear();
-  const m = heatmapViewDate.getMonth();
-  document.getElementById('heatmapLabel').textContent = PERSIAN_MONTHS_G[m] + ' ' + y;
+  const { jy, jm } = jalaliParts(heatmapViewDate);
+  document.getElementById('heatmapLabel').textContent = JALALI_MONTHS[jm-1] + ' ' + toPersianDigits(jy);
 
-  const first = new Date(y, m, 1);
-  const leading = weekdayIndex(first);
-  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const leading = weekdayIndex(heatmapViewDate);
+  const daysInMonth = jalaliMonthLength(heatmapViewDate);
   const todayISO = isoDate(new Date());
   const weekEndExclusive = addDaysISO(data.weekStartDate, 7);
 
@@ -773,7 +837,8 @@ function buildHeatmap(){
     grid.appendChild(empty);
   }
   for (let d=1; d<=daysInMonth; d++){
-    const dateObj = new Date(y, m, d);
+    const dateObj = new Date(heatmapViewDate);
+    dateObj.setDate(dateObj.getDate() + (d-1));
     const dateISO = isoDate(dateObj);
     const cell = document.createElement('div');
     cell.className = 'hm-cell';
@@ -783,15 +848,25 @@ function buildHeatmap(){
       pct = dayPercent(idx);
     }
     const color = RAINBOW_COLORS[weekdayIndex(dateObj)];
-    cell.innerHTML = waveTankSVG(dateISO, pct, d, dateISO === todayISO, color);
+    cell.innerHTML = waveTankSVG(dateISO, pct, toPersianDigits(d), dateISO === todayISO, color);
     cell.title = dateISO + (pct !== undefined ? ` — ${Math.round(pct)}%` : '');
     grid.appendChild(cell);
   }
 }
 function shiftHeatmapMonth(delta){
-  heatmapViewDate = new Date(heatmapViewDate.getFullYear(), heatmapViewDate.getMonth()+delta, 1);
+  if (delta > 0){
+    const len = jalaliMonthLength(heatmapViewDate);
+    const next = new Date(heatmapViewDate);
+    next.setDate(next.getDate() + len);
+    heatmapViewDate = jalaliMonthStart(next);
+  } else {
+    const prev = new Date(heatmapViewDate);
+    prev.setDate(prev.getDate() - 1);
+    heatmapViewDate = jalaliMonthStart(prev);
+  }
   buildHeatmap();
 }
+
 
 /* ---------------- aggregates refresh ---------------- */
 let prevOverall = 0;
@@ -1216,6 +1291,7 @@ function resetWeek(){
     renderAddRow(currentDetailCat);
   }
   buildRatingGrid();
+  buildWeekLog();
   refreshAggregates();
 }
 
@@ -1226,10 +1302,11 @@ function init(){
   document.getElementById('dailyQuote').textContent = todayQuote();
   buildDayStrip();
   buildHeatmapDow();
-  heatmapViewDate = new Date();
+  heatmapViewDate = jalaliMonthStart(new Date());
   buildCategoryTiles();
   renderNotes();
   buildRatingGrid();
+  buildWeekLog();
   prevOverall = overallPercent();
   for (let i=0;i<7;i++) prevDayPercents[i] = dayPercent(i);
   displayedPct = 0;
