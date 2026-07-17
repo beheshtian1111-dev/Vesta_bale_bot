@@ -198,7 +198,17 @@
   .target-row input, .target-row select { font-size: 10px; border-radius: 6px; padding: 2px 4px; background: var(--bg); border: none; }
   .target-row input { width: 34px; }
 
-  .name-line { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+  .name-line { display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
+  .reorder-pair { display: flex; align-items: center; gap: 3px; }
+  .reorder-btn {
+    width: 21px; height: 21px; border-radius: 7px; background: var(--muted-bg); border: none;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+    color: var(--ink); transition: transform .12s ease, background .15s, opacity .15s;
+  }
+  .reorder-btn svg { pointer-events: none; }
+  .reorder-btn:active { transform: scale(.82); background: #e6e0d2; }
+  .reorder-btn:disabled { opacity: .25; }
+  .reorder-btn:disabled:active { transform: none; background: var(--muted-bg); }
   .timer-toggle-btn { background: none; border: none; padding: 0; cursor: pointer; font-size: 11px; opacity: .4; transition: opacity .15s, transform .12s ease; line-height: 1; }
   .timer-toggle-btn.has-duration { opacity: 1; }
   .timer-toggle-btn:active { transform: scale(.85); }
@@ -207,7 +217,6 @@
   .duration-picker.open { display: flex; }
   .duration-picker button { font-size: 9.5px; padding: 3px 6px; border-radius: 6px; border: none; background: var(--bg); color: var(--ink); cursor: pointer; font-family: inherit; }
   .duration-picker button.clear-dur { color: #B3261E; }
-  .row-actions { display: flex; flex-direction: column; align-items: center; gap: 3px; }
   .reorder-btn { background: none; border: none; padding: 0; cursor: pointer; font-size: 10px; line-height: 1; color: var(--ink); opacity: .45; transition: opacity .15s, transform .1s ease; }
   .reorder-btn:active { opacity: 1; transform: scale(.85); }
   .reorder-btn:disabled { opacity: .12; }
@@ -982,6 +991,14 @@ function categoryCardInner(c){
       <div class="name-line">
         <span>${escapeHtml(h.name)}</span>
         <button class="timer-toggle-btn ${h.duration?'has-duration':''}" onclick="toggleDurationPicker('${c.id}','${h.id}')">⏱</button>
+        <div class="reorder-pair">
+          <button class="reorder-btn" onclick="moveHabit('${c.id}','${h.id}',-1)" ${idx===0?'disabled':''}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
+          <button class="reorder-btn" onclick="moveHabit('${c.id}','${h.id}',1)" ${idx===c.habits.length-1?'disabled':''}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
       </div>`;
     if (h.duration) {
       nameCell += `<div class="duration-badge">⏱ ${formatDuration(h.duration)}</div>`;
@@ -1016,13 +1033,7 @@ function categoryCardInner(c){
       });
     }
 
-    const actionsCell = `<td>
-      <div class="row-actions">
-        <button class="reorder-btn" onclick="moveHabit('${c.id}','${h.id}',-1)" ${idx===0?'disabled':''}>▲</button>
-        <button class="reorder-btn" onclick="moveHabit('${c.id}','${h.id}',1)" ${idx===c.habits.length-1?'disabled':''}>▼</button>
-        <button class="del-btn" onclick="removeHabit('${c.id}','${h.id}')">${trashSvg}</button>
-      </div>
-    </td>`;
+    const actionsCell = `<td><button class="del-btn" onclick="removeHabit('${c.id}','${h.id}')">${trashSvg}</button></td>`;
 
     rows += `<tr>${nameCell}${dayCells}${actionsCell}</tr>`;
   });
