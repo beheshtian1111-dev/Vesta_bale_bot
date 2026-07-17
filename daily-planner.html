@@ -198,6 +198,20 @@
   .target-row input, .target-row select { font-size: 10px; border-radius: 6px; padding: 2px 4px; background: var(--bg); border: none; }
   .target-row input { width: 34px; }
 
+  .name-line { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+  .timer-toggle-btn { background: none; border: none; padding: 0; cursor: pointer; font-size: 11px; opacity: .4; transition: opacity .15s, transform .12s ease; line-height: 1; }
+  .timer-toggle-btn.has-duration { opacity: 1; }
+  .timer-toggle-btn:active { transform: scale(.85); }
+  .duration-badge { font-size: 9px; background: var(--muted-bg); color: var(--ink-soft); border-radius: 6px; padding: 1px 6px; margin-top: 3px; display: inline-block; }
+  .duration-picker { display: none; gap: 4px; margin-top: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .duration-picker.open { display: flex; }
+  .duration-picker button { font-size: 9.5px; padding: 3px 6px; border-radius: 6px; border: none; background: var(--bg); color: var(--ink); cursor: pointer; font-family: inherit; }
+  .duration-picker button.clear-dur { color: #B3261E; }
+  .row-actions { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .reorder-btn { background: none; border: none; padding: 0; cursor: pointer; font-size: 10px; line-height: 1; color: var(--ink); opacity: .45; transition: opacity .15s, transform .1s ease; }
+  .reorder-btn:active { opacity: 1; transform: scale(.85); }
+  .reorder-btn:disabled { opacity: .12; }
+
   .del-btn { background: none; border: none; cursor: pointer; opacity: .4; padding: 4px; transition: opacity .15s, transform .12s ease; }
   .del-btn:active { opacity: 1; transform: scale(.85); }
 
@@ -955,10 +969,30 @@ function refreshAggregates(){
 /* ---------------- categories: detail table markup ---------------- */
 let addingTo = null;
 
+function formatDuration(mins){
+  if (mins < 60) return mins + ' دقیقه';
+  const h = mins / 60;
+  return (Number.isInteger(h) ? h : h.toFixed(1)) + ' ساعت';
+}
+
 function categoryCardInner(c){
   let rows = '';
-  c.habits.forEach(h => {
-    let nameCell = `<td class="name-col">${escapeHtml(h.name)}`;
+  c.habits.forEach((h, idx) => {
+    let nameCell = `<td class="name-col">
+      <div class="name-line">
+        <span>${escapeHtml(h.name)}</span>
+        <button class="timer-toggle-btn ${h.duration?'has-duration':''}" onclick="toggleDurationPicker('${c.id}','${h.id}')">⏱</button>
+      </div>`;
+    if (h.duration) {
+      nameCell += `<div class="duration-badge">⏱ ${formatDuration(h.duration)}</div>`;
+    }
+    nameCell += `<div class="duration-picker" id="durpick_${c.id}_${h.id}">
+        <button onclick="setDuration('${c.id}','${h.id}',30)">۳۰ دقیقه</button>
+        <button onclick="setDuration('${c.id}','${h.id}',60)">۱ ساعت</button>
+        <button onclick="setDuration('${c.id}','${h.id}',90)">۱.۵ ساعت</button>
+        <button onclick="setDuration('${c.id}','${h.id}',120)">۲ ساعت</button>
+        ${h.duration ? `<button class="clear-dur" onclick="clearDuration('${c.id}','${h.id}')">حذف زمان</button>` : ''}
+      </div>`;
     if (h.type === 'counter') {
       nameCell += `<div class="target-row">
         <span>هدف:</span>
@@ -982,7 +1016,15 @@ function categoryCardInner(c){
       });
     }
 
-    rows += `<tr>${nameCell}${dayCells}<td><button class="del-btn" onclick="removeHabit('${c.id}','${h.id}')">${trashSvg}</button></td></tr>`;
+    const actionsCell = `<td>
+      <div class="row-actions">
+        <button class="reorder-btn" onclick="moveHabit('${c.id}','${h.id}',-1)" ${idx===0?'disabled':''}>▲</button>
+        <button class="reorder-btn" onclick="moveHabit('${c.id}','${h.id}',1)" ${idx===c.habits.length-1?'disabled':''}>▼</button>
+        <button class="del-btn" onclick="removeHabit('${c.id}','${h.id}')">${trashSvg}</button>
+      </div>
+    </td>`;
+
+    rows += `<tr>${nameCell}${dayCells}${actionsCell}</tr>`;
   });
 
   const counts = catCounts(c);
@@ -1253,6 +1295,36 @@ function removeHabit(catId, habitId){
   saveData();
   rebuildCategory(catId);
   refreshAggregates();
+}
+function moveHabit(catId, habitId, direction){
+  const c = data.categories.find(x=>x.id===catId);
+  const idx = c.habits.findIndex(x=>x.id===habitId);
+  const newIdx = idx + direction;
+  if (newIdx < 0 || newIdx >= c.habits.length) return;
+  const tmp = c.habits[idx];
+  c.habits[idx] = c.habits[newIdx];
+  c.habits[newIdx] = tmp;
+  saveData();
+  rebuildCategory(catId);
+}
+function toggleDurationPicker(catId, habitId){
+  const el = document.getElementById(`durpick_${catId}_${habitId}`);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+function setDuration(catId, habitId, mins){
+  const c = data.categories.find(x=>x.id===catId);
+  const h = c.habits.find(x=>x.id===habitId);
+  h.duration = mins;
+  saveData();
+  rebuildCategory(catId);
+}
+function clearDuration(catId, habitId){
+  const c = data.categories.find(x=>x.id===catId);
+  const h = c.habits.find(x=>x.id===habitId);
+  delete h.duration;
+  saveData();
+  rebuildCategory(catId);
 }
 
 /* ---------------- notes ---------------- */
