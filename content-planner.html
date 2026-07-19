@@ -145,28 +145,28 @@
 
   <div class="card enter" style="animation-delay:.05s">
     <h2>اطلاعات کانال‌ها</h2>
-    <p class="sub">آمار رو هر وقت خواستی آپدیت کن؛ دستاوردها و اهداف خودکار باهاش پیش می‌رن.</p>
+    <p class="sub">هر عددی که وارد کنی، همون لحظه ذخیره می‌شه و رو دستاوردها/اهداف اثر می‌ذاره.</p>
 
     <div class="platform-block yt">
       <div class="platform-title yt"><span class="dot"></span>یوتیوب <span class="live-note">🔌 اتصال زنده: به‌زودی</span></div>
       <div class="field-row">
-        <div class="field"><label class="small">اسم کانال</label><input type="text" id="ytName" placeholder="Vesta Decor"></div>
-        <div class="field"><label class="small">لینک کانال</label><input type="url" id="ytUrl" placeholder="youtube.com/@..."></div>
+        <div class="field"><label class="small">اسم کانال</label><input type="text" id="ytName" onchange="updateChannelField('youtube','name',this.value)" placeholder="Vesta Decor"></div>
+        <div class="field"><label class="small">لینک کانال</label><input type="url" id="ytUrl" onchange="updateChannelField('youtube','url',this.value)" placeholder="youtube.com/@..."></div>
       </div>
       <div class="stat-grid" style="margin-top:10px;">
-        <div class="stat-tile"><div class="stat-label">مشترکین</div><input type="number" id="ytSubs"><div class="stat-delta" id="ytSubsDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">مجموع ویو</div><input type="number" id="ytViews"><div class="stat-delta" id="ytViewsDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">لایک</div><input type="number" id="ytLikes"><div class="stat-delta" id="ytLikesDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">کامنت</div><input type="number" id="ytComments"><div class="stat-delta" id="ytCommentsDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">تعداد ویدیو</div><input type="number" id="ytVideos"></div>
-        <div class="stat-tile"><div class="stat-label">تعداد شورت</div><input type="number" id="ytShorts"></div>
+        <div class="stat-tile"><div class="stat-label">مشترکین</div><input type="number" id="ytSubs" onchange="updateChannelField('youtube','subs',this.value)"><div class="stat-delta" id="ytSubsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">مجموع ویو</div><input type="number" id="ytViews" onchange="updateChannelField('youtube','views',this.value)"><div class="stat-delta" id="ytViewsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">لایک</div><input type="number" id="ytLikes" onchange="updateChannelField('youtube','likes',this.value)"><div class="stat-delta" id="ytLikesDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">کامنت</div><input type="number" id="ytComments" onchange="updateChannelField('youtube','comments',this.value)"><div class="stat-delta" id="ytCommentsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">تعداد ویدیو</div><input type="number" id="ytVideos" onchange="updateChannelField('youtube','videos',this.value)"></div>
+        <div class="stat-tile"><div class="stat-label">شیر</div><input type="number" id="ytShares" onchange="updateChannelField('youtube','shares',this.value)"><div class="stat-delta" id="ytSharesDelta"></div></div>
       </div>
       <div class="goals-mini">
         <div class="goals-mini-title">🎯 اهداف من (حداکثر ۴)</div>
         <div id="ytGoalsList"></div>
         <div class="add-goal-form" id="ytAddGoalForm">
           <select id="ytGoalMetric">
-            <option value="subs">مشترکین</option><option value="views">ویو</option><option value="likes">لایک</option><option value="comments">کامنت</option>
+            <option value="subs">مشترکین</option><option value="views">ویو</option><option value="likes">لایک</option><option value="comments">کامنت</option><option value="shares">شیر</option>
           </select>
           <input type="number" id="ytGoalTarget" placeholder="عدد هدف">
           <button onclick="confirmAddGoal('youtube')">افزودن</button>
@@ -178,23 +178,23 @@
     <div class="platform-block aparat">
       <div class="platform-title aparat"><span class="dot"></span>آپارات</div>
       <div class="field-row">
-        <div class="field"><label class="small">اسم کانال</label><input type="text" id="apName" placeholder="Vesta Decor"></div>
-        <div class="field"><label class="small">لینک کانال</label><input type="url" id="apUrl" placeholder="aparat.com/..."></div>
+        <div class="field"><label class="small">اسم کانال</label><input type="text" id="apName" onchange="updateChannelField('aparat','name',this.value)" placeholder="Vesta Decor"></div>
+        <div class="field"><label class="small">لینک کانال</label><input type="url" id="apUrl" onchange="updateChannelField('aparat','url',this.value)" placeholder="aparat.com/..."></div>
       </div>
       <div class="stat-grid" style="margin-top:10px;">
-        <div class="stat-tile"><div class="stat-label">دنبال‌کننده</div><input type="number" id="apSubs"><div class="stat-delta" id="apSubsDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">مجموع ویو</div><input type="number" id="apViews"><div class="stat-delta" id="apViewsDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">لایک</div><input type="number" id="apLikes"><div class="stat-delta" id="apLikesDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">کامنت</div><input type="number" id="apComments"><div class="stat-delta" id="apCommentsDelta"></div></div>
-        <div class="stat-tile"><div class="stat-label">تعداد پست</div><input type="number" id="apVideos"></div>
-        <div class="stat-tile"></div>
+        <div class="stat-tile"><div class="stat-label">دنبال‌کننده</div><input type="number" id="apSubs" onchange="updateChannelField('aparat','subs',this.value)"><div class="stat-delta" id="apSubsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">مجموع ویو</div><input type="number" id="apViews" onchange="updateChannelField('aparat','views',this.value)"><div class="stat-delta" id="apViewsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">لایک</div><input type="number" id="apLikes" onchange="updateChannelField('aparat','likes',this.value)"><div class="stat-delta" id="apLikesDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">کامنت</div><input type="number" id="apComments" onchange="updateChannelField('aparat','comments',this.value)"><div class="stat-delta" id="apCommentsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">تعداد پست</div><input type="number" id="apVideos" onchange="updateChannelField('aparat','videos',this.value)"></div>
+        <div class="stat-tile"><div class="stat-label">شیر</div><input type="number" id="apShares" onchange="updateChannelField('aparat','shares',this.value)"><div class="stat-delta" id="apSharesDelta"></div></div>
       </div>
       <div class="goals-mini">
         <div class="goals-mini-title">🎯 اهداف من (حداکثر ۴)</div>
         <div id="apGoalsList"></div>
         <div class="add-goal-form" id="apAddGoalForm">
           <select id="apGoalMetric">
-            <option value="subs">دنبال‌کننده</option><option value="views">ویو</option><option value="likes">لایک</option><option value="comments">کامنت</option>
+            <option value="subs">دنبال‌کننده</option><option value="views">ویو</option><option value="likes">لایک</option><option value="comments">کامنت</option><option value="shares">شیر</option>
           </select>
           <input type="number" id="apGoalTarget" placeholder="عدد هدف">
           <button onclick="confirmAddGoal('aparat')">افزودن</button>
@@ -203,7 +203,7 @@
       </div>
     </div>
 
-    <button class="save-btn" onclick="saveChannelInfo()">ذخیره‌ی اطلاعات و آمار</button>
+    <button class="save-btn" onclick="logGrowthSnapshot()">📸 ثبت آپدیت رشد (برای دیدن روند تغییرات)</button>
   </div>
 
   <div class="card enter" style="animation-delay:.1s">
@@ -254,7 +254,7 @@ function zeros(){ return [0,0,0,0,0,0,0]; }
 function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
 function fmtNum(n){ return Number(n||0).toLocaleString('en-US'); }
 
-function defaultChannel(){ return { name:'', url:'', subs:0, views:0, likes:0, comments:0, videos:0, shorts:0, goals:[] }; }
+function defaultChannel(){ return { name:'', url:'', subs:0, views:0, likes:0, comments:0, shares:0, videos:0, goals:[] }; }
 function defaultTrackedItems(){
   return [
     { id:'yt-video', label:'ویدیو یوتیوب', color:'var(--yt)', target:2, days:zeros() },
@@ -352,13 +352,15 @@ const MILESTONE_TIERS = {
   subs:     [100,500,1000,1500,2000,3000,4000,5000,7500,10000,15000,20000,30000,50000,100000],
   views:    [2000,3000,5000,7000,10000,15000,20000,30000,50000,75000,100000,200000,500000,1000000],
   likes:    [50,100,250,500,1000,2500,5000,10000,25000,50000,100000],
-  comments: [10,25,50,100,250,500,1000,2500,5000,10000]
+  comments: [10,25,50,100,250,500,1000,2500,5000,10000],
+  shares:   [10,25,50,100,250,500,1000,2500,5000,10000]
 };
 const METRIC_META = {
   subs:     { emoji:'👥', name:'مشترکین/دنبال‌کننده' },
   views:    { emoji:'👁️', name:'مجموع ویو' },
   likes:    { emoji:'❤️', name:'لایک' },
-  comments: { emoji:'💬', name:'کامنت' }
+  comments: { emoji:'💬', name:'کامنت' },
+  shares:   { emoji:'🔁', name:'شیر' }
 };
 function tierInfo(platform, metric){
   const tiers = MILESTONE_TIERS[metric];
@@ -596,7 +598,7 @@ function fillChannelForm(){
   document.getElementById('ytLikes').value = yt.likes;
   document.getElementById('ytComments').value = yt.comments;
   document.getElementById('ytVideos').value = yt.videos;
-  document.getElementById('ytShorts').value = yt.shorts;
+  document.getElementById('ytShares').value = yt.shares;
   document.getElementById('apName').value = ap.name;
   document.getElementById('apUrl').value = ap.url;
   document.getElementById('apSubs').value = ap.subs;
@@ -604,10 +606,11 @@ function fillChannelForm(){
   document.getElementById('apLikes').value = ap.likes;
   document.getElementById('apComments').value = ap.comments;
   document.getElementById('apVideos').value = ap.videos;
+  document.getElementById('apShares').value = ap.shares;
   showDeltas();
 }
 function showDeltas(){
-  ['ytSubsDelta','ytViewsDelta','ytLikesDelta','ytCommentsDelta','apSubsDelta','apViewsDelta','apLikesDelta','apCommentsDelta'].forEach(id=>{
+  ['ytSubsDelta','ytViewsDelta','ytLikesDelta','ytCommentsDelta','ytSharesDelta','apSubsDelta','apViewsDelta','apLikesDelta','apCommentsDelta','apSharesDelta'].forEach(id=>{
     const el=document.getElementById(id); if(el){ el.textContent=''; el.className='stat-delta'; }
   });
   if (data.statsLog.length < 2) return;
@@ -616,7 +619,7 @@ function showDeltas(){
   function setDelta(id, a, b){
     const el = document.getElementById(id);
     if (!el) return;
-    const diff = b-a;
+    const diff = (b||0)-(a||0);
     if (diff===0) return;
     el.className = 'stat-delta ' + (diff>0?'up':'down');
     el.textContent = (diff>0?'+':'') + fmtNum(diff);
@@ -625,42 +628,31 @@ function showDeltas(){
   setDelta('ytViewsDelta', prev.yt.views, cur.yt.views);
   setDelta('ytLikesDelta', prev.yt.likes, cur.yt.likes);
   setDelta('ytCommentsDelta', prev.yt.comments, cur.yt.comments);
+  setDelta('ytSharesDelta', prev.yt.shares, cur.yt.shares);
   setDelta('apSubsDelta', prev.ap.subs, cur.ap.subs);
   setDelta('apViewsDelta', prev.ap.views, cur.ap.views);
   setDelta('apLikesDelta', prev.ap.likes, cur.ap.likes);
   setDelta('apCommentsDelta', prev.ap.comments, cur.ap.comments);
+  setDelta('apSharesDelta', prev.ap.shares, cur.ap.shares);
 }
-function saveChannelInfo(){
-  data.channels.youtube = {
-    name: document.getElementById('ytName').value.trim(),
-    url: document.getElementById('ytUrl').value.trim(),
-    subs: Number(document.getElementById('ytSubs').value)||0,
-    views: Number(document.getElementById('ytViews').value)||0,
-    likes: Number(document.getElementById('ytLikes').value)||0,
-    comments: Number(document.getElementById('ytComments').value)||0,
-    videos: Number(document.getElementById('ytVideos').value)||0,
-    shorts: Number(document.getElementById('ytShorts').value)||0,
-    goals: data.channels.youtube.goals || []
-  };
-  data.channels.aparat = {
-    name: document.getElementById('apName').value.trim(),
-    url: document.getElementById('apUrl').value.trim(),
-    subs: Number(document.getElementById('apSubs').value)||0,
-    views: Number(document.getElementById('apViews').value)||0,
-    likes: Number(document.getElementById('apLikes').value)||0,
-    comments: Number(document.getElementById('apComments').value)||0,
-    videos: Number(document.getElementById('apVideos').value)||0,
-    goals: data.channels.aparat.goals || []
-  };
+// Every field auto-saves immediately on change, so achievements/goals always reflect what's on screen.
+function updateChannelField(platform, field, value){
+  const ch = data.channels[platform];
+  if (field === 'name' || field === 'url') ch[field] = String(value).trim();
+  else ch[field] = Math.max(0, Number(value)||0);
+  saveData();
+  refreshAggregates();
+}
+// Separate, optional action: logs a dated snapshot of current numbers so growth deltas can be shown over time.
+function logGrowthSnapshot(){
   data.statsLog.push({
     date: isoDate(new Date()),
-    yt: { subs:data.channels.youtube.subs, views:data.channels.youtube.views, likes:data.channels.youtube.likes, comments:data.channels.youtube.comments },
-    ap: { subs:data.channels.aparat.subs, views:data.channels.aparat.views, likes:data.channels.aparat.likes, comments:data.channels.aparat.comments }
+    yt: { subs:data.channels.youtube.subs, views:data.channels.youtube.views, likes:data.channels.youtube.likes, comments:data.channels.youtube.comments, shares:data.channels.youtube.shares },
+    ap: { subs:data.channels.aparat.subs, views:data.channels.aparat.views, likes:data.channels.aparat.likes, comments:data.channels.aparat.comments, shares:data.channels.aparat.shares }
   });
   if (data.statsLog.length > 60) data.statsLog.shift();
   saveData();
   showDeltas();
-  refreshAggregates();
 }
 
 /* ---------------- week log ---------------- */
