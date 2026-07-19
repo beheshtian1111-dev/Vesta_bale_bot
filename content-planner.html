@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>پلنر رشد کانال | وستا دکور</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="پلنر کانال">
+<style>
+  :root {
+    --bg: #F7F3EC; --card: #FFFFFF; --ink: #20242B; --ink-soft: #8A8578;
+    --muted-bg: #EFEAE0; --header-bg: #20242B; --header-bg-2: #33394A;
+    --gold: #C9A227; --yt: #E53935; --aparat: #F2994A;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin:0; background:var(--bg); font-family:'Vazirmatn',Tahoma,'Segoe UI',system-ui,sans-serif; color:var(--ink); padding-bottom:60px; overflow-x:hidden; }
+
+  @keyframes fadeSlideUp { from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+  .enter { animation: fadeSlideUp .6s cubic-bezier(.22,.9,.34,1) both; }
+  @keyframes rotateHalo { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  @keyframes confettiFall { to{ transform:translateY(112vh) rotate(760deg); opacity:.25; } }
+
+  .header { background: linear-gradient(155deg,#20242B 0%,#262c36 55%,#1c2027 100%); padding:32px 20px 28px; position:relative; overflow:hidden; }
+  .header-inner { max-width:520px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; position:relative; z-index:1; }
+  .eyebrow { font-size:12px; color:var(--gold); display:flex; align-items:center; gap:4px; }
+  h1 { font-size:22px; margin:6px 0 0; color:var(--bg); }
+  .motiv { font-size:12px; color:#A9A499; margin-top:8px; }
+  .ring-wrap { position:relative; width:96px; height:96px; flex-shrink:0; }
+  .ring-wrap svg { transform:rotate(-90deg); position:relative; z-index:1; }
+  .ring-halo { position:absolute; inset:-14px; border-radius:50%; background:conic-gradient(from 0deg, transparent 0%, rgba(201,162,39,.55) 18%, transparent 40%, transparent 60%, rgba(201,162,39,.35) 82%, transparent 100%); filter:blur(7px); animation:rotateHalo 7s linear infinite; z-index:0; }
+  #ringFg { transition: stroke-dashoffset .6s cubic-bezier(.22,.9,.34,1); }
+  .ring-percent { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; color:var(--bg); z-index:1; }
+
+  #confettiRoot { position:fixed; inset:0; pointer-events:none; z-index:9999; overflow:hidden; }
+  .confetti-piece { position:absolute; top:-12px; border-radius:2px; animation:confettiFall linear forwards; }
+
+  .container { max-width:520px; margin:-12px auto 0; padding:0 16px; position:relative; z-index:1; }
+  .card { background:var(--card); border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+  .card h2 { font-size:14px; font-weight:700; margin:0 0 10px; }
+  .card p.sub { font-size:11px; color:var(--ink-soft); margin:-6px 0 12px; }
+  input[type=text], input[type=number], input[type=url], select { font-family:inherit; border:none; outline:none; background:var(--bg); color:var(--ink); border-radius:10px; padding:8px; font-size:13px; width:100%; transition:box-shadow .15s; }
+  input:focus, select:focus { box-shadow:0 0 0 2px rgba(201,162,39,.45); }
+  label.small { font-size:11px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:4px; }
+  .field { margin-bottom:10px; }
+  .field:last-child { margin-bottom:0; }
+  .field-row { display:flex; gap:8px; }
+  .field-row .field { flex:1; }
+
+  .platform-block { border-radius:14px; padding:12px; margin-bottom:10px; }
+  .platform-block:last-child { margin-bottom:0; }
+  .platform-block.yt { background: #FDEDED; border-right:4px solid var(--yt); }
+  .platform-block.aparat { background: #FDF3E9; border-right:4px solid var(--aparat); }
+  .platform-title { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:800; margin-bottom:10px; }
+  .platform-title .dot { width:9px; height:9px; border-radius:50%; }
+  .platform-title.yt .dot { background:var(--yt); }
+  .platform-title.aparat .dot { background:var(--aparat); }
+  .live-note { font-size:9.5px; color:var(--ink-soft); background:#fff; border-radius:6px; padding:2px 6px; margin-right:auto; }
+
+  .stat-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .stat-tile { background:#fff; border-radius:10px; padding:8px; text-align:center; }
+  .stat-tile .stat-label { font-size:9.5px; color:var(--ink-soft); margin-bottom:4px; }
+  .stat-tile input { text-align:center; font-weight:700; font-size:13px; background:var(--bg); padding:6px 4px; }
+  .stat-delta { font-size:9px; margin-top:3px; font-weight:700; min-height:11px; }
+  .stat-delta.up { color:#18A85A; }
+  .stat-delta.down { color:#D64545; }
+
+  .goals-mini { margin-top:12px; background:#fff; border-radius:12px; padding:10px; }
+  .goals-mini-title { font-size:11.5px; font-weight:700; margin-bottom:8px; }
+  .goal-row { margin-bottom:8px; }
+  .goal-row:last-child { margin-bottom:0; }
+  .goal-row-top { display:flex; align-items:center; justify-content:space-between; font-size:10.5px; margin-bottom:4px; }
+  .goal-del-btn { background:none; border:none; color:#D64545; cursor:pointer; font-size:12px; padding:0 2px; opacity:.6; }
+  .goal-del-btn:active { opacity:1; }
+  .goal-bar-track { height:8px; border-radius:5px; background:var(--muted-bg); overflow:hidden; }
+  .goal-bar-fill { height:100%; border-radius:5px; transition:width .5s cubic-bezier(.22,.9,.34,1); }
+  .goal-pct-label { font-size:9px; color:var(--ink-soft); margin-top:2px; text-align:left; }
+  .add-goal-form { display:none; gap:6px; margin-top:8px; align-items:center; }
+  .add-goal-form select { flex:1.3; font-size:11px; padding:6px; }
+  .add-goal-form input { flex:1; font-size:11px; padding:6px; }
+  .add-goal-form button { flex-shrink:0; background:var(--ink); color:#fff; border:none; border-radius:8px; padding:6px 10px; font-size:11px; font-family:inherit; cursor:pointer; }
+  .add-goal-btn { width:100%; margin-top:8px; background:none; border:1.5px dashed #D8D0BC; border-radius:10px; padding:7px; font-size:11px; font-weight:700; color:var(--ink-soft); cursor:pointer; font-family:inherit; }
+  .add-goal-btn:active { transform:scale(.97); }
+
+  table { width:100%; border-collapse:collapse; min-width:430px; }
+  th { font-size:11px; font-weight:400; color:var(--ink-soft); padding-bottom:6px; }
+  th.name-col, td.name-col { text-align:right; padding-right:4px; }
+  td { text-align:center; padding:5px 0; font-size:13px; }
+  .scroll-x { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .row-label { display:flex; align-items:center; gap:6px; justify-content:flex-end; font-weight:600; }
+  .row-label-edit { display:flex; align-items:center; gap:5px; justify-content:flex-end; }
+  .row-name-input { width:84px; text-align:right; font-weight:700; font-size:12px; padding:5px 6px; background:var(--muted-bg); }
+  .row-del-btn { background:none; border:none; color:#D64545; cursor:pointer; font-size:12px; padding:0 2px; opacity:.5; flex-shrink:0; }
+  .row-del-btn:active { opacity:1; }
+  .add-tracked-form { display:none; gap:6px; margin-top:10px; align-items:center; flex-wrap:wrap; }
+  .add-tracked-form input, .add-tracked-form select { flex:1; min-width:80px; font-size:11px; padding:7px; }
+  .add-tracked-form button { flex-shrink:0; background:var(--ink); color:#fff; border:none; border-radius:8px; padding:7px 12px; font-size:11px; font-family:inherit; cursor:pointer; }
+  .row-label .rdot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .target-row { font-size:10px; color:var(--ink-soft); margin-top:2px; display:flex; align-items:center; gap:4px; justify-content:flex-end; }
+  .target-row input { width:34px; padding:2px 4px; font-size:10px; }
+  .num-input { width:38px; text-align:center; border-radius:8px; padding:6px 2px; font-size:12px; background:var(--muted-bg); color:var(--ink); border:none; margin:0 auto; display:block; transition:background .18s, color .18s; }
+  .num-input.on { color:#fff; box-shadow:0 2px 7px rgba(0,0,0,.18); }
+
+  .level-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .level-card { background:var(--bg); border-radius:14px; padding:12px; }
+  .level-top { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; margin-bottom:6px; }
+  .level-emoji { font-size:18px; }
+  .level-current { font-size:11px; color:var(--ink-soft); margin-bottom:6px; }
+  .level-bar-track { height:9px; border-radius:6px; background:var(--muted-bg); overflow:hidden; }
+  .level-bar-fill { height:100%; border-radius:6px; background:linear-gradient(90deg,#E7C550,var(--gold)); transition:width .5s cubic-bezier(.22,.9,.34,1); }
+  .level-next { font-size:9.5px; color:var(--ink-soft); margin-top:5px; }
+
+  .weeklog-row { display:flex; align-items:center; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--muted-bg); font-size:12px; }
+  .weeklog-row:last-child { border-bottom:none; }
+
+  .reset-btn { width:100%; padding:14px; border-radius:16px; border:none; cursor:pointer; background:var(--muted-bg); color:var(--ink); font-size:14px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; transition:transform .12s ease, background .15s; }
+  .reset-btn:active { transform:scale(.97); background:#e6e0d2; }
+  .save-btn { width:100%; padding:11px; border-radius:12px; border:none; cursor:pointer; background:#20242B; color:#F7F3EC; font-size:13px; font-weight:700; font-family:inherit; margin-top:10px; transition:transform .12s ease; }
+  .save-btn:active { transform:scale(.97); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div style="flex:1">
+      <div class="eyebrow">▶ پلنر رشد کانال</div>
+      <h1>یوتیوب و آپارات وستا</h1>
+      <div class="motiv" id="motivLine"></div>
+    </div>
+    <div class="ring-wrap" id="ringWrap">
+      <div class="ring-halo"></div>
+      <svg width="96" height="96">
+        <circle cx="48" cy="48" r="42" stroke="#33394A" stroke-width="9" fill="none"></circle>
+        <circle id="ringFg" cx="48" cy="48" r="42" stroke="#C9A227" stroke-width="9" fill="none" stroke-dasharray="263.9" stroke-dashoffset="263.9" stroke-linecap="round"></circle>
+      </svg>
+      <div class="ring-percent" id="ringPct">0%</div>
+    </div>
+  </div>
+</div>
+
+<div id="confettiRoot"></div>
+
+<div class="container">
+
+  <div class="card enter" style="animation-delay:.05s">
+    <h2>اطلاعات کانال‌ها</h2>
+    <p class="sub">آمار رو هر وقت خواستی آپدیت کن؛ دستاوردها و اهداف خودکار باهاش پیش می‌رن.</p>
+
+    <div class="platform-block yt">
+      <div class="platform-title yt"><span class="dot"></span>یوتیوب <span class="live-note">🔌 اتصال زنده: به‌زودی</span></div>
+      <div class="field-row">
+        <div class="field"><label class="small">اسم کانال</label><input type="text" id="ytName" placeholder="Vesta Decor"></div>
+        <div class="field"><label class="small">لینک کانال</label><input type="url" id="ytUrl" placeholder="youtube.com/@..."></div>
+      </div>
+      <div class="stat-grid" style="margin-top:10px;">
+        <div class="stat-tile"><div class="stat-label">مشترکین</div><input type="number" id="ytSubs"><div class="stat-delta" id="ytSubsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">مجموع ویو</div><input type="number" id="ytViews"><div class="stat-delta" id="ytViewsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">لایک</div><input type="number" id="ytLikes"><div class="stat-delta" id="ytLikesDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">کامنت</div><input type="number" id="ytComments"><div class="stat-delta" id="ytCommentsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">تعداد ویدیو</div><input type="number" id="ytVideos"></div>
+        <div class="stat-tile"><div class="stat-label">تعداد شورت</div><input type="number" id="ytShorts"></div>
+      </div>
+      <div class="goals-mini">
+        <div class="goals-mini-title">🎯 اهداف من (حداکثر ۴)</div>
+        <div id="ytGoalsList"></div>
+        <div class="add-goal-form" id="ytAddGoalForm">
+          <select id="ytGoalMetric">
+            <option value="subs">مشترکین</option><option value="views">ویو</option><option value="likes">لایک</option><option value="comments">کامنت</option>
+          </select>
+          <input type="number" id="ytGoalTarget" placeholder="عدد هدف">
+          <button onclick="confirmAddGoal('youtube')">افزودن</button>
+        </div>
+        <button class="add-goal-btn" id="ytAddGoalBtn" onclick="toggleAddGoalForm('youtube')">+ افزودن هدف</button>
+      </div>
+    </div>
+
+    <div class="platform-block aparat">
+      <div class="platform-title aparat"><span class="dot"></span>آپارات</div>
+      <div class="field-row">
+        <div class="field"><label class="small">اسم کانال</label><input type="text" id="apName" placeholder="Vesta Decor"></div>
+        <div class="field"><label class="small">لینک کانال</label><input type="url" id="apUrl" placeholder="aparat.com/..."></div>
+      </div>
+      <div class="stat-grid" style="margin-top:10px;">
+        <div class="stat-tile"><div class="stat-label">دنبال‌کننده</div><input type="number" id="apSubs"><div class="stat-delta" id="apSubsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">مجموع ویو</div><input type="number" id="apViews"><div class="stat-delta" id="apViewsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">لایک</div><input type="number" id="apLikes"><div class="stat-delta" id="apLikesDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">کامنت</div><input type="number" id="apComments"><div class="stat-delta" id="apCommentsDelta"></div></div>
+        <div class="stat-tile"><div class="stat-label">تعداد پست</div><input type="number" id="apVideos"></div>
+        <div class="stat-tile"></div>
+      </div>
+      <div class="goals-mini">
+        <div class="goals-mini-title">🎯 اهداف من (حداکثر ۴)</div>
+        <div id="apGoalsList"></div>
+        <div class="add-goal-form" id="apAddGoalForm">
+          <select id="apGoalMetric">
+            <option value="subs">دنبال‌کننده</option><option value="views">ویو</option><option value="likes">لایک</option><option value="comments">کامنت</option>
+          </select>
+          <input type="number" id="apGoalTarget" placeholder="عدد هدف">
+          <button onclick="confirmAddGoal('aparat')">افزودن</button>
+        </div>
+        <button class="add-goal-btn" id="apAddGoalBtn" onclick="toggleAddGoalForm('aparat')">+ افزودن هدف</button>
+      </div>
+    </div>
+
+    <button class="save-btn" onclick="saveChannelInfo()">ذخیره‌ی اطلاعات و آمار</button>
+  </div>
+
+  <div class="card enter" style="animation-delay:.1s">
+    <h2>پیگیری انتشار این هفته</h2>
+    <p class="sub">اسم هر ردیف قابل ویرایشه، عددها رو هم هر روز وارد کن.</p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th class="name-col">مورد</th><th>ش</th><th>ی</th><th>د</th><th>س</th><th>چ</th><th>پ</th><th>ج</th></tr></thead>
+        <tbody id="publishRows"></tbody>
+      </table>
+    </div>
+    <div class="add-tracked-form" id="addTrackedForm">
+      <input type="text" id="newTrackedName" placeholder="اسم مورد جدید">
+      <select id="newTrackedColor"></select>
+      <input type="number" id="newTrackedTarget" placeholder="هدف هفته">
+      <button onclick="confirmAddTracked()">افزودن</button>
+    </div>
+    <button class="add-goal-btn" onclick="toggleAddTrackedForm()">+ افزودن مورد به جدول</button>
+  </div>
+
+  <div class="card enter" style="animation-delay:.16s">
+    <h2>دستاوردهای رشد</h2>
+    <p class="sub">هر پلتفرم سطح‌بندی جدا داره.</p>
+    <div class="platform-title yt" style="margin-bottom:8px;"><span class="dot"></span>یوتیوب</div>
+    <div class="level-grid" id="achievementsGridYT"></div>
+    <div class="platform-title aparat" style="margin:16px 0 8px;"><span class="dot"></span>آپارات</div>
+    <div class="level-grid" id="achievementsGridAP"></div>
+  </div>
+
+  <div class="card enter" style="animation-delay:.2s">
+    <h2>سوابق هفته‌ها</h2>
+    <div id="weekLogList"></div>
+  </div>
+
+  <button class="reset-btn enter" style="animation-delay:.26s" onclick="resetWeek()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#20242B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+    شروع هفته جدید (ذخیره‌ی سوابق و پاک کردن جدول)
+  </button>
+
+</div>
+
+<script>
+const STORAGE_KEY = "vesta-content-planner-v1";
+const DAY_SHORT = ["ش","ی","د","س","چ","پ","ج"];
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function zeros(){ return [0,0,0,0,0,0,0]; }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+function fmtNum(n){ return Number(n||0).toLocaleString('en-US'); }
+
+function defaultChannel(){ return { name:'', url:'', subs:0, views:0, likes:0, comments:0, videos:0, shorts:0, goals:[] }; }
+function defaultTrackedItems(){
+  return [
+    { id:'yt-video', label:'ویدیو یوتیوب', color:'var(--yt)', target:2, days:zeros() },
+    { id:'yt-short', label:'شورت یوتیوب', color:'var(--yt)', target:5, days:zeros() },
+    { id:'ap-post',  label:'پست آپارات', color:'var(--aparat)', target:3, days:zeros() },
+  ];
+}
+function defaultData(){
+  return {
+    channels: { youtube: defaultChannel(), aparat: defaultChannel() },
+    statsLog: [],
+    tracked: defaultTrackedItems(),
+    history: {},
+    weekLog: [],
+    seenMilestones: { youtube: {subs:0,views:0,likes:0,comments:0}, aparat: {subs:0,views:0,likes:0,comments:0} }
+  };
+}
+function loadData(){
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch(e){ console.error(e); }
+  return defaultData();
+}
+let data = loadData();
+
+// migration for older saved data missing newer fields
+['youtube','aparat'].forEach(p=>{
+  const base = defaultChannel();
+  data.channels[p] = Object.assign(base, data.channels[p]||{});
+  if (!Array.isArray(data.channels[p].goals)) data.channels[p].goals = [];
+});
+if (!data.seenMilestones || !data.seenMilestones.youtube) {
+  data.seenMilestones = { youtube: {subs:0,views:0,likes:0,comments:0}, aparat: {subs:0,views:0,likes:0,comments:0} };
+}
+// migrate old fixed goals/weekly format into the new dynamic tracked-items array
+if (!data.tracked) {
+  if (data.goals && data.weekly) {
+    data.tracked = [
+      { id:'yt-video', label:'ویدیو یوتیوب', color:'var(--yt)', target:data.goals.ytVideo||2, days:data.weekly.ytVideo||zeros() },
+      { id:'yt-short', label:'شورت یوتیوب', color:'var(--yt)', target:data.goals.ytShort||5, days:data.weekly.ytShort||zeros() },
+      { id:'ap-post',  label:'پست آپارات', color:'var(--aparat)', target:data.goals.apPost||3, days:data.weekly.apPost||zeros() },
+    ];
+    delete data.goals;
+    delete data.weekly;
+  } else {
+    data.tracked = defaultTrackedItems();
+  }
+}
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+function isoDate(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+function parseISO(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
+function addDaysISO(iso,n){ const d=parseISO(iso); d.setDate(d.getDate()+n); return isoDate(d); }
+function mostRecentSaturdayISO(d){ const day=d.getDay(); const diff=(day-6+7)%7; const r=new Date(d); r.setDate(d.getDate()-diff); return isoDate(r); }
+
+if (!data.weekStartDate) data.weekStartDate = mostRecentSaturdayISO(new Date());
+if (!data.history) data.history = {};
+if (!data.weekLog) data.weekLog = [];
+if (!data.statsLog) data.statsLog = [];
+
+function saveData(){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){ console.error(e); } }
+
+const JALALI_FMT = new Intl.DateTimeFormat('en-US-u-ca-persian-nu-latn', { year:'numeric', month:'numeric', day:'numeric' });
+function jalaliParts(d){ const p=JALALI_FMT.formatToParts(d); const g=t=>+p.find(x=>x.type===t).value; return {jy:g('year'), jm:g('month'), jd:g('day')}; }
+const JALALI_MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+
+/* ---------------- weekly rollover ---------------- */
+function weekTotal(item){ return item.days.reduce((a,b)=>a+b,0); }
+function weekGoalHit(item){ return weekTotal(item) >= item.target; }
+
+function archiveCurrentWeek(){
+  for (let i=0;i<7;i++){
+    const dateKey = addDaysISO(data.weekStartDate, i);
+    data.history[dateKey] = data.tracked.reduce((sum,item)=>sum+item.days[i], 0);
+  }
+  const items = data.tracked.map(item => ({ label:item.label, total: weekTotal(item), target:item.target, hit: weekGoalHit(item) }));
+  data.weekLog.push({
+    weekStart: data.weekStartDate,
+    items,
+    goalsHit: items.length>0 && items.every(it=>it.hit)
+  });
+  if (data.weekLog.length > 26) data.weekLog.shift();
+}
+function startFreshWeek(){
+  data.tracked.forEach(item => { item.days = zeros(); });
+  data.weekStartDate = addDaysISO(data.weekStartDate, 7);
+}
+function checkWeekRollover(){
+  const todayISO = isoDate(new Date());
+  let guard = 0;
+  while (addDaysISO(data.weekStartDate,7) <= todayISO && guard < 52){ archiveCurrentWeek(); startFreshWeek(); guard++; }
+  saveData();
+}
+
+/* ---------------- growth milestone ladders ---------------- */
+const MILESTONE_TIERS = {
+  subs:     [100,500,1000,1500,2000,3000,4000,5000,7500,10000,15000,20000,30000,50000,100000],
+  views:    [2000,3000,5000,7000,10000,15000,20000,30000,50000,75000,100000,200000,500000,1000000],
+  likes:    [50,100,250,500,1000,2500,5000,10000,25000,50000,100000],
+  comments: [10,25,50,100,250,500,1000,2500,5000,10000]
+};
+const METRIC_META = {
+  subs:     { emoji:'👥', name:'مشترکین/دنبال‌کننده' },
+  views:    { emoji:'👁️', name:'مجموع ویو' },
+  likes:    { emoji:'❤️', name:'لایک' },
+  comments: { emoji:'💬', name:'کامنت' }
+};
+function tierInfo(platform, metric){
+  const tiers = MILESTONE_TIERS[metric];
+  const val = data.channels[platform][metric] || 0;
+  let achieved = null, next = tiers[0];
+  for (let i=0;i<tiers.length;i++){
+    if (val >= tiers[i]) { achieved = tiers[i]; next = tiers[i+1] || null; }
+  }
+  const prevTier = achieved || 0;
+  const progressPct = next ? Math.max(0, Math.min(((val-prevTier)/(next-prevTier))*100, 100)) : 100;
+  return { val, achieved, next, progressPct };
+}
+function buildAchievementGroup(platform){
+  const gridId = platform === 'youtube' ? 'achievementsGridYT' : 'achievementsGridAP';
+  const grid = document.getElementById(gridId);
+  if (!grid) return false;
+  const barColor = platform === 'youtube' ? 'linear-gradient(90deg,#F5A3A0,var(--yt))' : 'linear-gradient(90deg,#F7C99B,var(--aparat))';
+  let newly = false;
+  grid.innerHTML = Object.keys(METRIC_META).map(metric=>{
+    const meta = METRIC_META[metric];
+    const info = tierInfo(platform, metric);
+    if (info.achieved && info.achieved > (data.seenMilestones[platform][metric]||0)){
+      data.seenMilestones[platform][metric] = info.achieved;
+      newly = true;
+    }
+    const currentLabel = info.achieved ? fmtNum(info.achieved)+'+' : 'هنوز نرسیدی';
+    const nextLabel = info.next ? `تا ${fmtNum(info.next)}: ${Math.round(info.progressPct)}%` : '🎉 به بالاترین سطح رسیدی';
+    return `<div class="level-card">
+      <div class="level-top"><span class="level-emoji">${meta.emoji}</span>${meta.name}</div>
+      <div class="level-current">سطح فعلی: ${currentLabel} (${fmtNum(info.val)})</div>
+      <div class="level-bar-track"><div class="level-bar-fill" style="width:${info.progressPct}%; background:${barColor}"></div></div>
+      <div class="level-next">${nextLabel}</div>
+    </div>`;
+  }).join('');
+  return newly;
+}
+function buildAchievements(){
+  const newlyYT = buildAchievementGroup('youtube');
+  const newlyAP = buildAchievementGroup('aparat');
+  if (newlyYT || newlyAP){ saveData(); fireConfetti(120); }
+}
+
+/* ---------------- custom goals per platform ---------------- */
+function goalRowHTML(platform, goal){
+  const meta = METRIC_META[goal.metric];
+  const current = data.channels[platform][goal.metric] || 0;
+  const pct = Math.max(0, Math.min((current/goal.target)*100, 100));
+  const color = platform === 'youtube' ? 'var(--yt)' : 'var(--aparat)';
+  return `<div class="goal-row">
+    <div class="goal-row-top">
+      <span>${meta.emoji} ${meta.name}: ${fmtNum(current)} / ${fmtNum(goal.target)}</span>
+      <button class="goal-del-btn" onclick="removeGoal('${platform}','${goal.id}')">✕</button>
+    </div>
+    <div class="goal-bar-track"><div class="goal-bar-fill" style="width:${pct}%; background:${color}"></div></div>
+    <div class="goal-pct-label">${Math.round(pct)}%</div>
+  </div>`;
+}
+function buildGoals(platform){
+  const listEl = document.getElementById(platform==='youtube' ? 'ytGoalsList' : 'apGoalsList');
+  const btnEl = document.getElementById(platform==='youtube' ? 'ytAddGoalBtn' : 'apAddGoalBtn');
+  const goals = data.channels[platform].goals || [];
+  listEl.innerHTML = goals.length ? goals.map(g=>goalRowHTML(platform,g)).join('') : '<p class="sub" style="margin:0">هنوز هدفی تعریف نکردی.</p>';
+  if (btnEl) btnEl.style.display = goals.length >= 4 ? 'none' : 'block';
+}
+function toggleAddGoalForm(platform){
+  const form = document.getElementById(platform==='youtube' ? 'ytAddGoalForm' : 'apAddGoalForm');
+  form.style.display = (form.style.display === 'flex') ? 'none' : 'flex';
+}
+function confirmAddGoal(platform){
+  const metricEl = document.getElementById(platform==='youtube' ? 'ytGoalMetric' : 'apGoalMetric');
+  const targetEl = document.getElementById(platform==='youtube' ? 'ytGoalTarget' : 'apGoalTarget');
+  const target = Number(targetEl.value);
+  if (!target || target <= 0) return;
+  if (!data.channels[platform].goals) data.channels[platform].goals = [];
+  if (data.channels[platform].goals.length >= 4) return;
+  data.channels[platform].goals.push({ id: uid(), metric: metricEl.value, target });
+  targetEl.value = '';
+  saveData();
+  buildGoals(platform);
+  document.getElementById(platform==='youtube' ? 'ytAddGoalForm' : 'apAddGoalForm').style.display = 'none';
+}
+function removeGoal(platform, goalId){
+  data.channels[platform].goals = (data.channels[platform].goals||[]).filter(g=>g.id!==goalId);
+  saveData();
+  buildGoals(platform);
+}
+
+/* ---------------- confetti + ring ---------------- */
+function fireConfetti(count){
+  const root = document.getElementById('confettiRoot');
+  if (!root) return;
+  const colors = ['#C9A227','#E53935','#F2994A','#18A85A','#F7F3EC'];
+  for (let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className='confetti-piece';
+    el.style.left=(Math.random()*100)+'vw';
+    el.style.width=(6+Math.random()*6)+'px';
+    el.style.height=(10+Math.random()*8)+'px';
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.opacity=(0.7+Math.random()*0.3).toFixed(2);
+    el.style.animationDuration=(1.8+Math.random()*1.6)+'s';
+    el.style.animationDelay=(Math.random()*0.3)+'s';
+    root.appendChild(el);
+    setTimeout(()=>el.remove(), 4200);
+  }
+}
+let displayedPct = 0, ringRaf = null;
+const RING_CIRC = 263.9;
+function updateRing(target){
+  document.getElementById('ringFg').style.strokeDashoffset = RING_CIRC - (target/100)*RING_CIRC;
+  cancelAnimationFrame(ringRaf);
+  const start = displayedPct, startTime = performance.now(), dur=550;
+  function step(now){
+    const t = Math.min((now-startTime)/dur,1);
+    const eased = 1-Math.pow(1-t,3);
+    const val = start+(target-start)*eased;
+    const el = document.getElementById('ringPct');
+    if (t<1){ el.textContent = Math.round(val)+'%'; ringRaf=requestAnimationFrame(step); }
+    else { displayedPct=target; el.textContent = Math.round(target)+'%'+(target>=99.9?' ✨':''); }
+  }
+  ringRaf = requestAnimationFrame(step);
+}
+function motivationLine(p){
+  if (p>=100) return "این هفته رو کامل کردی، محتوای بی‌نظیری بود 🔥";
+  if (p>=70) return "خیلی خوب پیش می‌ری، ادامه بده";
+  if (p>=30) return "شروع خوبی بوده، بیشتر منتشر کن";
+  return "این هفته هنوز چیزی منتشر نکردی";
+}
+
+/* ---------------- publish tracker table ---------------- */
+const TRACKED_COLOR_OPTIONS = [
+  { label:'قرمز یوتیوب', value:'var(--yt)' },
+  { label:'نارنجی آپارات', value:'var(--aparat)' },
+  { label:'طلایی', value:'#C9A227' },
+  { label:'سبز', value:'#18A85A' },
+  { label:'آبی', value:'#2E90FA' },
+  { label:'بنفش', value:'#8B5CF6' },
+];
+function buildPublishRows(){
+  const tbody = document.getElementById('publishRows');
+  tbody.innerHTML = data.tracked.map(item => {
+    const cells = item.days.map((v,i) => {
+      const on = v >= item.target;
+      return `<td><input class="num-input ${on?'on':''}" style="${on?`background:${item.color}`:''}" type="number" value="${v||''}" placeholder="0"
+        onchange="setWeekly('${item.id}',${i},this.value)"></td>`;
+    }).join('');
+    return `<tr>
+      <td class="name-col">
+        <div class="row-label-edit">
+          <span class="rdot" style="background:${item.color}"></span>
+          <input type="text" class="row-name-input" value="${escapeHtml(item.label)}" onchange="renameTracked('${item.id}',this.value)">
+          <button class="row-del-btn" onclick="removeTracked('${item.id}')">✕</button>
+        </div>
+        <div class="target-row"><span>هدف هفته:</span><input type="number" value="${item.target}" onchange="setItemTarget('${item.id}',this.value)"></div>
+      </td>
+      ${cells}
+    </tr>`;
+  }).join('');
+}
+function setWeekly(itemId, i, val){
+  const item = data.tracked.find(x=>x.id===itemId);
+  if (!item) return;
+  item.days[i] = val==='' ? 0 : Math.max(0, Number(val));
+  saveData();
+  buildPublishRows();
+  refreshAggregates();
+}
+function setItemTarget(itemId, val){
+  const item = data.tracked.find(x=>x.id===itemId);
+  if (!item) return;
+  item.target = Math.max(1, Number(val)||1);
+  saveData();
+  buildPublishRows();
+  refreshAggregates();
+}
+function renameTracked(itemId, val){
+  const item = data.tracked.find(x=>x.id===itemId);
+  if (!item) return;
+  const name = val.trim();
+  if (name) item.label = name;
+  saveData();
+}
+function removeTracked(itemId){
+  if (data.tracked.length <= 1){ alert('حداقل یه مورد باید تو جدول بمونه.'); return; }
+  if (!confirm('این مورد از جدول حذف بشه؟')) return;
+  data.tracked = data.tracked.filter(x=>x.id!==itemId);
+  saveData();
+  buildPublishRows();
+  refreshAggregates();
+}
+function toggleAddTrackedForm(){
+  const f = document.getElementById('addTrackedForm');
+  f.style.display = (f.style.display === 'flex') ? 'none' : 'flex';
+}
+function confirmAddTracked(){
+  const name = document.getElementById('newTrackedName').value.trim();
+  if (!name) return;
+  const color = document.getElementById('newTrackedColor').value;
+  const target = Math.max(1, Number(document.getElementById('newTrackedTarget').value)||1);
+  data.tracked.push({ id: uid(), label:name, color, target, days: zeros() });
+  document.getElementById('newTrackedName').value = '';
+  document.getElementById('newTrackedTarget').value = '';
+  saveData();
+  buildPublishRows();
+  refreshAggregates();
+  document.getElementById('addTrackedForm').style.display = 'none';
+}
+
+/* ---------------- aggregates ---------------- */
+function overallPercent(){
+  if (!data.tracked.length) return 0;
+  let done = 0;
+  data.tracked.forEach(item => { done += Math.min(weekTotal(item)/item.target, 1); });
+  return (done/data.tracked.length)*100;
+}
+let prevOverall = 0;
+function refreshAggregates(){
+  const op = overallPercent();
+  updateRing(op);
+  document.getElementById('motivLine').textContent = motivationLine(op);
+  if (op>=99.9 && prevOverall<99.9) fireConfetti(120);
+  prevOverall = op;
+  buildAchievements();
+  buildGoals('youtube');
+  buildGoals('aparat');
+}
+
+/* ---------------- channel info / stats ---------------- */
+function fillChannelForm(){
+  const yt = data.channels.youtube, ap = data.channels.aparat;
+  document.getElementById('ytName').value = yt.name;
+  document.getElementById('ytUrl').value = yt.url;
+  document.getElementById('ytSubs').value = yt.subs;
+  document.getElementById('ytViews').value = yt.views;
+  document.getElementById('ytLikes').value = yt.likes;
+  document.getElementById('ytComments').value = yt.comments;
+  document.getElementById('ytVideos').value = yt.videos;
+  document.getElementById('ytShorts').value = yt.shorts;
+  document.getElementById('apName').value = ap.name;
+  document.getElementById('apUrl').value = ap.url;
+  document.getElementById('apSubs').value = ap.subs;
+  document.getElementById('apViews').value = ap.views;
+  document.getElementById('apLikes').value = ap.likes;
+  document.getElementById('apComments').value = ap.comments;
+  document.getElementById('apVideos').value = ap.videos;
+  showDeltas();
+}
+function showDeltas(){
+  ['ytSubsDelta','ytViewsDelta','ytLikesDelta','ytCommentsDelta','apSubsDelta','apViewsDelta','apLikesDelta','apCommentsDelta'].forEach(id=>{
+    const el=document.getElementById(id); if(el){ el.textContent=''; el.className='stat-delta'; }
+  });
+  if (data.statsLog.length < 2) return;
+  const prev = data.statsLog[data.statsLog.length-2];
+  const cur = data.statsLog[data.statsLog.length-1];
+  function setDelta(id, a, b){
+    const el = document.getElementById(id);
+    if (!el) return;
+    const diff = b-a;
+    if (diff===0) return;
+    el.className = 'stat-delta ' + (diff>0?'up':'down');
+    el.textContent = (diff>0?'+':'') + fmtNum(diff);
+  }
+  setDelta('ytSubsDelta', prev.yt.subs, cur.yt.subs);
+  setDelta('ytViewsDelta', prev.yt.views, cur.yt.views);
+  setDelta('ytLikesDelta', prev.yt.likes, cur.yt.likes);
+  setDelta('ytCommentsDelta', prev.yt.comments, cur.yt.comments);
+  setDelta('apSubsDelta', prev.ap.subs, cur.ap.subs);
+  setDelta('apViewsDelta', prev.ap.views, cur.ap.views);
+  setDelta('apLikesDelta', prev.ap.likes, cur.ap.likes);
+  setDelta('apCommentsDelta', prev.ap.comments, cur.ap.comments);
+}
+function saveChannelInfo(){
+  data.channels.youtube = {
+    name: document.getElementById('ytName').value.trim(),
+    url: document.getElementById('ytUrl').value.trim(),
+    subs: Number(document.getElementById('ytSubs').value)||0,
+    views: Number(document.getElementById('ytViews').value)||0,
+    likes: Number(document.getElementById('ytLikes').value)||0,
+    comments: Number(document.getElementById('ytComments').value)||0,
+    videos: Number(document.getElementById('ytVideos').value)||0,
+    shorts: Number(document.getElementById('ytShorts').value)||0,
+    goals: data.channels.youtube.goals || []
+  };
+  data.channels.aparat = {
+    name: document.getElementById('apName').value.trim(),
+    url: document.getElementById('apUrl').value.trim(),
+    subs: Number(document.getElementById('apSubs').value)||0,
+    views: Number(document.getElementById('apViews').value)||0,
+    likes: Number(document.getElementById('apLikes').value)||0,
+    comments: Number(document.getElementById('apComments').value)||0,
+    videos: Number(document.getElementById('apVideos').value)||0,
+    goals: data.channels.aparat.goals || []
+  };
+  data.statsLog.push({
+    date: isoDate(new Date()),
+    yt: { subs:data.channels.youtube.subs, views:data.channels.youtube.views, likes:data.channels.youtube.likes, comments:data.channels.youtube.comments },
+    ap: { subs:data.channels.aparat.subs, views:data.channels.aparat.views, likes:data.channels.aparat.likes, comments:data.channels.aparat.comments }
+  });
+  if (data.statsLog.length > 60) data.statsLog.shift();
+  saveData();
+  showDeltas();
+  refreshAggregates();
+}
+
+/* ---------------- week log ---------------- */
+function weekLogRowHTML(w){
+  const startJ = jalaliParts(parseISO(w.weekStart));
+  const endJ = jalaliParts(parseISO(addDaysISO(w.weekStart,6)));
+  const sameMonth = startJ.jm===endJ.jm;
+  const dateLabel = sameMonth ? `${startJ.jd} تا ${endJ.jd} ${JALALI_MONTHS[endJ.jm-1]}` : `${startJ.jd} ${JALALI_MONTHS[startJ.jm-1]} تا ${endJ.jd} ${JALALI_MONTHS[endJ.jm-1]}`;
+  let summary;
+  if (w.items){
+    const total = w.items.reduce((s,it)=>s+it.total, 0);
+    summary = `${total} محتوا (` + w.items.map(it=>`${it.total} ${escapeHtml(it.label)}`).join('، ') + ')';
+  } else {
+    const total = (w.ytVideo||0)+(w.ytShort||0)+(w.apPost||0);
+    summary = `${total} محتوا (${w.ytVideo||0} ویدیو، ${w.ytShort||0} شورت، ${w.apPost||0} آپارات)`;
+  }
+  return `<div class="weeklog-row">
+    <span>${dateLabel}</span>
+    <span>${w.goalsHit?'🏆 ':''}${summary}</span>
+  </div>`;
+}
+function buildWeekLog(){
+  const el = document.getElementById('weekLogList');
+  if (!el) return;
+  if (!data.weekLog.length){ el.innerHTML = '<p class="sub" style="margin:0">هنوز هیچ هفته‌ای تموم نشده.</p>'; return; }
+  el.innerHTML = data.weekLog.slice().reverse().map(weekLogRowHTML).join('');
+}
+
+/* ---------------- reset ---------------- */
+function resetWeek(){
+  if (!confirm('این هفته ثبت بشه و جدول پاک بشه؟')) return;
+  archiveCurrentWeek();
+  startFreshWeek();
+  saveData();
+  prevOverall = 0;
+  buildPublishRows();
+  buildWeekLog();
+  refreshAggregates();
+}
+
+/* ---------------- init ---------------- */
+function init(){
+  checkWeekRollover();
+  fillChannelForm();
+  document.getElementById('newTrackedColor').innerHTML =
+    TRACKED_COLOR_OPTIONS.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+  buildPublishRows();
+  buildWeekLog();
+  prevOverall = overallPercent();
+  displayedPct = 0;
+  refreshAggregates();
+}
+init();
+</script>
+</body>
+</html>
