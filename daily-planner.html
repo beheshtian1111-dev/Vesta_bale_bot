@@ -347,7 +347,7 @@ body{
 .modal-ov.show{opacity:1;pointer-events:all}
 .modal-box{
   background:#15151e;border:1px solid var(--border);
-  border-radius:var(--r);padding:24px 20px;max-width:360px;width:100%;
+  border-radius:var(--r);padding:24px 20px;max-width:400px;width:100%;
   text-align:center;transform:scale(.96);transition:transform .25s ease;
 }
 .modal-ov.show .modal-box{transform:scale(1)}
@@ -380,22 +380,48 @@ body{
   font-size:1rem;display:flex;align-items:center;justify-content:center;
 }
 .emoji-opt.sel{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04)}
-.color-row{display:flex;gap:5px;flex-wrap:wrap}
-.color-opt{
-  width:28px;height:28px;border-radius:50%;border:2px solid transparent;
-  cursor:pointer;transition:transform .15s ease;
+.cp-section{text-align:right}
+.color-presets{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.color-preset{
+  width:26px;height:26px;border-radius:50%;border:2px solid transparent;
+  cursor:pointer;transition:all .15s ease;position:relative;
 }
-.color-opt:hover{transform:scale(1.12)}
-.color-opt.sel{border-color:rgba(255,255,255,.5);transform:scale(1.12)}
-.color-custom-row{display:flex;align-items:center;gap:8px;margin-top:4px}
-.color-custom-row label{font-size:.68rem;color:var(--t3)}
-.color-custom-input{
-  width:32px;height:28px;border:1px solid var(--border);
-  border-radius:var(--rx);background:none;cursor:pointer;padding:0;
+.color-preset:hover{transform:scale(1.15)}
+.color-preset.sel{border-color:rgba(255,255,255,.6);transform:scale(1.15)}
+.color-preset.sel::after{
+  content:'✓';position:absolute;inset:0;display:flex;
+  align-items:center;justify-content:center;
+  font-size:.6rem;color:#333;font-weight:700;
+}
+.cp-custom{
+  display:flex;align-items:center;gap:10px;padding:10px;
+  background:rgba(255,255,255,.02);border-radius:var(--rx);
+}
+.cp-picker-wrap{
+  position:relative;width:40px;height:40px;border-radius:var(--rx);
+  overflow:hidden;border:1px solid var(--border);flex-shrink:0;
+}
+.cp-picker-wrap input[type=color]{
+  position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);
+  border:none;cursor:pointer;padding:0;
   -webkit-appearance:none;appearance:none;
 }
-.color-custom-input::-webkit-color-swatch-wrapper{padding:2px}
-.color-custom-input::-webkit-color-swatch{border:none;border-radius:4px}
+.cp-picker-wrap input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.cp-picker-wrap input[type=color]::-webkit-color-swatch{border:none;border-radius:0}
+.cp-hex-row{display:flex;align-items:center;gap:6px;flex:1}
+.cp-hex-inp{
+  flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:var(--rx);padding:7px 10px;color:var(--t1);
+  font-family:monospace,'Vazirmatn',sans-serif;font-size:.8rem;
+  outline:none;direction:ltr;text-align:center;letter-spacing:.05em;
+}
+.cp-hex-inp:focus{border-color:rgba(255,255,255,.15)}
+.cp-hex-inp::placeholder{color:var(--t3);font-family:'Vazirmatn',sans-serif;direction:rtl;letter-spacing:0}
+.cp-preview{
+  width:40px;height:40px;border-radius:var(--rx);
+  border:1px solid var(--border);flex-shrink:0;
+  transition:background .2s ease;
+}
 
 /* Toast */
 .toast-c{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:2000;display:flex;flex-direction:column;gap:6px;pointer-events:none}
@@ -450,12 +476,17 @@ body{
         <div class="cm-label">ایموجی</div>
         <div class="emoji-row" id="emojiPick"></div>
       </div>
-      <div>
-        <div class="cm-label">رنگ</div>
-        <div class="color-row" id="colorPick"></div>
-        <div class="color-custom-row">
-          <label>رنگ دلخواه:</label>
-          <input type="color" class="color-custom-input" id="customColorInput" value="#b8a9c9">
+      <div class="cp-section">
+        <div class="cm-label">پالت رنگی</div>
+        <div class="color-presets" id="colorPick"></div>
+        <div class="cp-custom">
+          <div class="cp-picker-wrap">
+            <input type="color" id="nativeColorPicker" value="#b8a9c9">
+          </div>
+          <div class="cp-hex-row">
+            <input class="cp-hex-inp" id="hexInput" type="text" maxlength="7" placeholder="کد هگز مثلاً #f5b8c8">
+          </div>
+          <div class="cp-preview" id="colorPreview" style="background:#b8a9c9"></div>
         </div>
       </div>
     </div>
@@ -801,22 +832,36 @@ function initCM(){
   var ep=document.getElementById('emojiPick');ep.innerHTML='';
   EMOJIS.forEach(function(e){var b=document.createElement('button');b.className='emoji-opt';b.textContent=e;b.onclick=function(){ep.querySelectorAll('.emoji-opt').forEach(function(x){x.classList.remove('sel')});b.classList.add('sel');selE=e};ep.appendChild(b)});
   var cp=document.getElementById('colorPick');cp.innerHTML='';
-  PASTELS.forEach(function(c){var b=document.createElement('button');b.className='color-opt';b.style.background=c;b.onclick=function(){cp.querySelectorAll('.color-opt').forEach(function(x){x.classList.remove('sel')});b.classList.add('sel');selC=c;document.getElementById('customColorInput').value=c};cp.appendChild(b)});
-  document.getElementById('customColorInput').oninput=function(){
-    var v=this.value;selC=v;
-    document.querySelectorAll('#colorPick .color-opt').forEach(function(x){x.classList.remove('sel')});
-  };
+  PASTELS.forEach(function(c){var b=document.createElement('button');b.className='color-preset'+(c===selC?' sel':'');b.style.background=c;b.onclick=function(){setSelColor(c)};cp.appendChild(b)});
+  var np=document.getElementById('nativeColorPicker');
+  np.value=selC;
+  np.oninput=function(){setSelColor(this.value)};
+  var hi=document.getElementById('hexInput');
+  hi.value=selC;
+  hi.oninput=function(){var v=this.value.trim();if(/^#[0-9a-fA-F]{6}$/.test(v)){setSelColor(v)}};
+  hi.onblur=function(){this.value=selC};
+  document.getElementById('colorPreview').style.background=selC;
 }
 function openCM(cid){
   editId=cid||null;var t=document.getElementById('cmTitle'),n=document.getElementById('cmName'),ic=document.getElementById('cmIcon');
-  if(cid){t.textContent='ویرایش دسته';ic.textContent='✏️';var cat=state.cats.find(function(c){return c.id===cid});if(cat){n.value=cat.name;selE=cat.emoji;selC=cat.color;document.getElementById('customColorInput').value=cat.color}}
-  else{t.textContent='دسته جدید';ic.textContent='📁';n.value='';selE='📁';selC='#b8a9c9';document.getElementById('customColorInput').value='#b8a9c9'}
+  if(cid){t.textContent='ویرایش دسته';ic.textContent='✏️';var cat=state.cats.find(function(c){return c.id===cid});if(cat){n.value=cat.name;selE=cat.emoji;selC=cat.color}}
+  else{t.textContent='دسته جدید';ic.textContent='📁';n.value='';selE='📁';selC='#b8a9c9'}
   setTimeout(function(){
     document.querySelectorAll('#emojiPick .emoji-opt').forEach(function(b){b.classList.toggle('sel',b.textContent===selE)});
-    document.querySelectorAll('#colorPick .color-opt').forEach(function(b){b.classList.toggle('sel',rgb2h(b.style.background)===selC.toLowerCase())});
+    document.querySelectorAll('#colorPick .color-preset').forEach(function(b){b.classList.toggle('sel',rgb2h(b.style.background)===selC.toLowerCase())});
+    document.getElementById('nativeColorPicker').value=selC;
+    document.getElementById('hexInput').value=selC;
+    document.getElementById('colorPreview').style.background=selC;
   },50);openM('catModal');setTimeout(function(){n.focus()},300);
 }
 function rgb2h(r){if(!r)return'';if(r[0]==='#')return r.toLowerCase();var m=r.match(/\d+/g);return m?'#'+[m[0],m[1],m[2]].map(function(x){return(+x).toString(16).padStart(2,'0')}).join(''):r}
+function setSelColor(c){
+  selC=c.toLowerCase();
+  document.querySelectorAll('#colorPick .color-preset').forEach(function(b){b.classList.toggle('sel',rgb2h(b.style.background)===selC)});
+  document.getElementById('nativeColorPicker').value=selC;
+  document.getElementById('hexInput').value=selC;
+  document.getElementById('colorPreview').style.background=selC;
+}
 function saveCM(){
   var n=document.getElementById('cmName').value.trim();if(!n){toast('⚠️ نام دسته را وارد کنید');return}
   if(editId){var cat=state.cats.find(function(c){return c.id===editId});if(cat){cat.name=n;cat.emoji=selE;cat.color=selC}}
